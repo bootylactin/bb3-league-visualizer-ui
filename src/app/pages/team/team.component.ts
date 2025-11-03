@@ -36,15 +36,15 @@ export class TeamComponent implements OnInit {
 
   getTotalGames(): number {
     if (!this.team) return 0;
-    const wins = this.team.stats?.wins ?? this.team.wins ?? 0;
-    const draws = this.team.stats?.draws ?? this.team.draws ?? 0;
-    const losses = this.team.stats?.losses ?? this.team.losses ?? 0;
+    const wins = this.team.stats.wins || this.team.wins || 0;
+    const draws = this.team.stats.draws || this.team.draws || 0;
+    const losses = this.team.stats.losses || this.team.losses || 0;
     return wins + draws + losses;
   }
 
   getWinPercentage(): number {
     if (!this.team || this.getTotalGames() === 0) return 0;
-    const wins = this.team.stats?.wins ?? this.team.wins ?? 0;
+    const wins = this.team.stats.wins || this.team.wins || 0;
     return Math.round((wins / this.getTotalGames()) * 100);
   }
 
@@ -55,17 +55,30 @@ export class TeamComponent implements OnInit {
   // Helper methods to access team stats with backward compatibility
   getTeamStat<K extends keyof Team['stats']>(stat: K): number {
     if (!this.team) return 0;
-    return this.team.stats?.[stat] ?? (this.team[stat] as number) ?? 0;
+    return this.team.stats[stat] || (this.team[stat] as number) || 0;
   }
 
   getTreasury(): number {
     if (!this.team) return 0;
-    return this.team.financials?.treasury ?? this.team.treasury ?? 0;
+    return this.team.financials.treasury || this.team.treasury || 0;
   }
 
   getTeamValue(): number {
     if (!this.team) return 0;
-    return this.team.financials?.teamValue ?? this.team.teamValue ?? 0;
+    return this.team.financials.teamValue || this.team.teamValue || 0;
+  }
+
+  // Helper methods to access player stats with backward compatibility
+  getPlayerSpp(player: any): number {
+    return player.stats.spp.total || player.spp || 0;
+  }
+
+  getPlayerTouchdowns(player: any): number {
+    return player.stats.offense.touchdowns || player.touchdowns || 0;
+  }
+
+  getPlayerCasualties(player: any): number {
+    return player.stats.violenceInflicted?.casualties || player.casualties || 0;
   }
 }
 

@@ -40,13 +40,13 @@
                 </td>
                 <td>{{ team.coach }}</td>
                 <td>{{ team.race }}</td>
-                <td>{{ team.stats.wins ?? team.wins ?? 0 }}</td>
-                <td>{{ team.stats.draws ?? team.draws ?? 0 }}</td>
-                <td>{{ team.stats.losses ?? team.losses ?? 0 }}</td>
-                <td>{{ team.stats.touchdownsFor ?? team.touchdownsFor ?? 0 }}</td>
-                <td>{{ team.stats.touchdownsAgainst ?? team.touchdownsAgainst ?? 0 }}</td>
-                <td>{{ team.stats.casualtiesFor ?? team.casualtiesFor ?? 0 }}</td>
-                <td>{{ team.stats.casualtiesAgainst ?? team.casualtiesAgainst ?? 0 }}</td>
+                <td>{{ getTeamWins(team) }}</td>
+                <td>{{ getTeamDraws(team) }}</td>
+                <td>{{ getTeamLosses(team) }}</td>
+                <td>{{ getTeamTouchdownsFor(team) }}</td>
+                <td>{{ getTeamTouchdownsAgainst(team) }}</td>
+                <td>{{ getTeamCasualtiesFor(team) }}</td>
+                <td>{{ getTeamCasualtiesAgainst(team) }}</td>
                 <td><strong>{{ getTeamPoints(team) }}</strong></td>
               </tr>
             }

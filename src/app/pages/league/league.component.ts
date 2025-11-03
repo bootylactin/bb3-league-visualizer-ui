@@ -47,8 +47,8 @@ export class LeagueComponent implements OnInit {
   }
 
   getTeamPoints(team: Team): number {
-    const wins = team.stats?.wins ?? team.wins ?? 0;
-    const draws = team.stats?.draws ?? team.draws ?? 0;
+    const wins = team.stats.wins || team.wins || 0;
+    const draws = team.stats.draws || team.draws || 0;
     return (wins * 3) + (draws * 1);
   }
 
@@ -68,30 +68,57 @@ export class LeagueComponent implements OnInit {
   getTotalTouchdowns(): number {
     if (!this.league?.teams) return 0;
     return this.league.teams.reduce((sum, team) => {
-      const tds = team.stats?.touchdownsFor ?? team.touchdownsFor ?? 0;
-      return sum + tds;
+      return sum + this.getTeamTouchdownsFor(team);
     }, 0);
   }
 
   getTotalCasualties(): number {
     if (!this.league?.teams) return 0;
     return this.league.teams.reduce((sum, team) => {
-      const cas = team.stats?.casualtiesFor ?? team.casualtiesFor ?? 0;
-      return sum + cas;
+      return sum + this.getTeamCasualtiesFor(team);
     }, 0);
   }
 
   // Helper methods to access player stats with backward compatibility
   getPlayerSpp(player: Player): number {
-    return player.stats?.spp?.total ?? player.spp ?? 0;
+    return player.stats.spp.total || player.spp || 0;
   }
 
   getPlayerTouchdowns(player: Player): number {
-    return player.stats?.offense?.touchdowns ?? player.touchdowns ?? 0;
+    return player.stats.offense.touchdowns || player.touchdowns || 0;
   }
 
   getPlayerCasualties(player: Player): number {
-    return player.stats?.violenceInflicted?.casualties ?? player.casualties ?? 0;
+    return player.stats.violenceInflicted?.casualties || player.casualties || 0;
+  }
+
+  // Helper methods to access team stats with backward compatibility
+  getTeamWins(team: Team): number {
+    return team.stats.wins || team.wins || 0;
+  }
+
+  getTeamDraws(team: Team): number {
+    return team.stats.draws || team.draws || 0;
+  }
+
+  getTeamLosses(team: Team): number {
+    return team.stats.losses || team.losses || 0;
+  }
+
+  getTeamTouchdownsFor(team: Team): number {
+    return team.stats.touchdownsFor || team.touchdownsFor || 0;
+  }
+
+  getTeamTouchdownsAgainst(team: Team): number {
+    return team.stats.touchdownsAgainst || team.touchdownsAgainst || 0;
+  }
+
+  getTeamCasualtiesFor(team: Team): number {
+    return team.stats.casualtiesFor || team.casualtiesFor || 0;
+  }
+
+  getTeamCasualtiesAgainst(team: Team): number {
+    return team.stats.casualtiesAgainst || team.casualtiesAgainst || 0;
   }
 }
 
