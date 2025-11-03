@@ -1,59 +1,109 @@
-# Bb3LeagueVisualizerUi
+# Blood Bowl 3 League Visualizer
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.8.
+A comprehensive web application for visualizing and analyzing Blood Bowl 3 league data. Track standings, view team statistics, analyze player performance, and discover insights about your league.
 
-## Development server
+## Features
 
-To start a local development server, run:
+The application provides a suite of tools for league management and analysis:
+
+- **Current Standings** - Real-time league standings with wins, losses, and points
+- **This Week's Matches** - Upcoming fixtures with match previews and head-to-head records
+- **Team Viewer** - Detailed team rosters, player statistics, and team history
+- **League MVPs** - Top performers across the league with achievements and star player points
+- **Most Yards Ran** - Track ground-gaining leaders
+- **Most Passes Completed** - Passing statistics and completion rates
+- **Most Casualties Inflicted** - Dangerous players tracker
+- **Touchdown Leaders** - Top scorers and touchdown statistics
+- **Performance Analytics** - Advanced metrics and data visualization
+
+## Technologies
+
+- **Angular 20.3** - Modern web framework with standalone components
+- **Bootstrap 5.3** - Responsive UI framework
+- **ng-bootstrap 19.0** - Angular Bootstrap component library
+- **TypeScript 5.9** - Type-safe development
+- **RxJS 7.8** - Reactive programming
+
+## Prerequisites
+
+- Node.js (v18 or higher recommended)
+- npm or yarn package manager
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd bb3-league-visualizer-ui
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+## Development
+
+Start the development server:
 
 ```bash
+npm start
+# or
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Navigate to `http://localhost:4200/`. The application will automatically reload when you modify source files.
 
-## Code scaffolding
+## Available Scripts
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- `npm start` - Start the development server
+- `npm run build` - Build the project for production (outputs to `dist/`)
+- `npm run watch` - Build and watch for changes in development mode
+- `npm test` - Run unit tests with Karma
+- `ng generate component <name>` - Generate a new component
 
-```bash
-ng generate component component-name
-```
+## Building for Production
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+Build the project for production:
 
 ```bash
-ng build
+npm run build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+The build artifacts will be stored in the `dist/` directory. The production build is optimized for performance.
 
-## Running unit tests
+## Project Structure
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+```
+src/
+├── app/
+│   ├── app.ts          # Root component
+│   ├── app.html        # Landing page template
+│   ├── app.css         # Component styles
+│   ├── app.config.ts   # Application configuration
+│   └── app.routes.ts   # Routing configuration
+├── index.html          # Main HTML file
+├── main.ts            # Application entry point
+└── styles.css         # Global styles
 ```
 
-## Running end-to-end tests
+## Future Development
 
-For end-to-end (e2e) testing, run:
+This is the initial version of the league visualizer. Planned enhancements include:
 
-```bash
-ng e2e
-```
+- Integration with Blood Bowl 3 replay data processor
+- Real-time league data fetching
+- Interactive charts and visualizations
+- Team comparison tools
+- Historical statistics tracking
+- Export functionality for league reports
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## License
+
+This project is private.
 
 ## Additional Resources
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- [Angular Documentation](https://angular.dev)
+- [Bootstrap Documentation](https://getbootstrap.com)
+- [ng-bootstrap Documentation](https://ng-bootstrap.github.io)
