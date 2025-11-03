@@ -11,6 +11,50 @@ export enum MatchResult {
 }
 
 /**
+ * Casualty Detail - Who inflicted casualty on whom
+ */
+export interface CasualtyDetail {
+  turn: number;
+  attackerPlayerId: string;
+  attackerPlayer?: Player;
+  attackerTeamId: string;
+  victimPlayerId: string;
+  victimPlayer?: Player;
+  victimTeamId: string;
+  injuryType: 'casualty' | 'ko' | 'stunned' | 'injury' | 'death';
+  injuryDescription?: string; // e.g., 'Niggling Injury', 'Serious Injury', 'Dead'
+  actionType?: string; // e.g., 'Block', 'Blitz', 'Foul', 'Throw Team-Mate'
+}
+
+/**
+ * Game Log Event Type
+ */
+export type GameLogEventType = 
+  | 'touchdown'
+  | 'casualty'
+  | 'expulsion'
+  | 'interception'
+  | 'completion'
+  | 'turnover'
+  | 'turn-start'
+  | 'half-time'
+  | 'game-end';
+
+/**
+ * Game Log Event
+ */
+export interface GameLogEvent {
+  turn: number;
+  half: 1 | 2;
+  eventType: GameLogEventType;
+  playerId?: string;
+  player?: Player;
+  teamId?: string;
+  description: string;
+  timestamp?: string;
+}
+
+/**
  * Individual Player Performance in a Match
  */
 export interface MatchPlayerPerformance {
@@ -24,6 +68,7 @@ export interface MatchPlayerPerformance {
   yardsRan?: number;
   yardsPassed?: number;
   mvp?: boolean;
+  expulsions?: number; // Times sent off by referee
   // Can add more match-specific stats as needed
 }
 
@@ -64,6 +109,10 @@ export interface Match {
     home: number;
     away: number;
   };
+
+  // Game Details
+  casualties?: CasualtyDetail[]; // Detailed casualty information
+  gameLog?: GameLogEvent[]; // Game log of notable actions
 
   // Metadata
   createdAt?: Date | string;

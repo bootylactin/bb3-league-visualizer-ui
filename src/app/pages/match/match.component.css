@@ -1,0 +1,41 @@
+.match-page {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.card {
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.breadcrumb {
+  margin-bottom: 0;
+}
+
+.breadcrumb-item a:hover {
+  text-decoration: underline !important;
+}
+
+.timeline-item {
+  position: relative;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 0;
+  bottom: -1rem;
+  width: 2px;
+  background-color: #dee2e6;
+}
+
+.timeline-item:last-child::before {
+  display: none;
+}
+
+.table-responsive {
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+

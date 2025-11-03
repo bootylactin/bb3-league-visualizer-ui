@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { DataService } from '../../services/data.service';
-import { League, Player, Team } from '../../models';
+import { League, Player, Team, Match } from '../../models';
 
 @Component({
   selector: 'app-league',
@@ -17,6 +17,7 @@ export class LeagueComponent implements OnInit {
   topSpp: Player[] = [];
   topCasualties: Player[] = [];
   topTouchdowns: Player[] = [];
+  matches: Match[] = [];
   private readonly dataService = inject(DataService);
   private readonly titleService = inject(Title);
 
@@ -40,6 +41,23 @@ export class LeagueComponent implements OnInit {
 
     this.dataService.getTopPlayersByTouchdowns(5).subscribe(players => {
       this.topTouchdowns = players;
+    });
+
+    this.dataService.getLeague().subscribe(league => {
+      if (league) {
+        this.dataService.getMatchesByLeague(league.id).subscribe(matches => {
+          this.matches = matches;
+        });
+      }
+    });
+  }
+
+  formatMatchDate(date: Date | string): string {
+    const d = typeof date === 'string' ? new Date(date) : date;
+    return d.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric' 
     });
   }
 

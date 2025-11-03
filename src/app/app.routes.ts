@@ -16,5 +16,9 @@ export const routes: Routes = [
   { 
     path: 'coach/:id', 
     loadComponent: () => import('./pages/coach/coach.component').then(m => m.CoachComponent)
+  },
+  { 
+    path: 'match/:id', 
+    loadComponent: () => import('./pages/match/match.component').then(m => m.MatchComponent)
   }
 ];

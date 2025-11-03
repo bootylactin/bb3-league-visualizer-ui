@@ -7,9 +7,10 @@ A comprehensive web application for visualizing and analyzing Blood Bowl 3 leagu
 The application provides a suite of tools for league management and analysis:
 
 - **Current Standings** - Real-time league standings with wins, losses, and points
-- **This Week's Matches** - Upcoming fixtures with match previews and head-to-head records
-- **Team Viewer** - Detailed team rosters, player statistics, and team history
-- **Coach Profiles** - View coach career statistics and teams coached across seasons
+- **Match History** - View all matches for leagues, teams, and coaches with links to detailed match pages
+- **Match Details** - Comprehensive match pages showing casualties (who inflicted on whom), game logs, and player performances
+- **Team Viewer** - Detailed team rosters, player statistics, team history, and match history
+- **Coach Profiles** - View coach career statistics, teams coached across seasons, and match history
 - **League MVPs** - Top performers across the league with achievements and star player points
 - **Most Yards Ran** - Track ground-gaining leaders
 - **Most Passes Completed** - Passing statistics and completion rates
@@ -79,7 +80,7 @@ The build artifacts will be stored in the `dist/` directory. The production buil
 src/
 ├── app/
 │   ├── models/         # Data models (Player, Team, Coach, League, Match)
-│   ├── pages/          # Page components (home, league, team, player, coach)
+│   ├── pages/          # Page components (home, league, team, player, coach, match)
 │   ├── services/       # Services (data service for API calls)
 │   ├── app.ts          # Root component
 │   ├── app.config.ts   # Application configuration

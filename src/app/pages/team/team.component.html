@@ -60,6 +60,73 @@
         </div>
       </section>
 
+      <!-- Match History -->
+      @if (matches.length > 0) {
+        <section class="mb-5">
+          <h2 class="mb-4">Match History</h2>
+          <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead class="table-dark">
+                <tr>
+                  <th>Date</th>
+                  <th>Opponent</th>
+                  <th>Score</th>
+                  <th>Result</th>
+                  <th>Week</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (match of matches; track match.id) {
+                  <tr>
+                    <td>{{ formatMatchDate(match.matchDate) }}</td>
+                    <td>
+                      <a [routerLink]="['/team', getOpponentId(match, team.id)]" class="text-decoration-none">
+                        {{ getOpponentName(match, team.id) }}
+                      </a>
+                    </td>
+                    <td>
+                      @if (match.finalScore) {
+                        <strong>{{ getScoreFor(match, team.id) }} - {{ getScoreAgainst(match, team.id) }}</strong>
+                      } @else {
+                        <span class="text-muted">vs</span>
+                      }
+                    </td>
+                    <td>
+                      @if (getMatchResult(match, team.id)) {
+                        @switch (getMatchResult(match, team.id)) {
+                          @case ('win') {
+                            <span class="badge bg-success">W</span>
+                          }
+                          @case ('draw') {
+                            <span class="badge bg-warning text-dark">D</span>
+                          }
+                          @case ('loss') {
+                            <span class="badge bg-danger">L</span>
+                          }
+                        }
+                      }
+                    </td>
+                    <td>
+                      @if (match.matchWeek) {
+                        Week {{ match.matchWeek }}
+                      } @else {
+                        -
+                      }
+                    </td>
+                    <td>
+                      <a [routerLink]="['/match', match.id]" class="btn btn-sm btn-primary">
+                        View Match
+                      </a>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+      }
+
       <!-- Roster -->
       <section class="mb-5">
         <h2 class="mb-4">Roster</h2>

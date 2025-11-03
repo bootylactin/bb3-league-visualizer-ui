@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Player, Team, League, Coach, PlayerStats, SppBreakdown, OffenseStats, PassingStats, AgilityStats, StrengthStats, ViolenceInflictedStats } from '../models';
+import { Player, Team, League, Coach, Match, MatchResult, MatchPlayerPerformance, CasualtyDetail, GameLogEvent, PlayerStats, SppBreakdown, OffenseStats, PassingStats, AgilityStats, StrengthStats, ViolenceInflictedStats } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -362,6 +362,292 @@ export class DataService {
   getTeamsByCoach(coachId: string): Observable<Team[]> {
     const teams = this.league.teams.filter(t => t.coachId === coachId);
     return of(teams);
+  }
+
+  private initializeMatches(): Match[] {
+    const league = this.league;
+    const team1 = league.teams[0];
+    const team2 = league.teams[1];
+
+    // Match 1: Team 1 vs Team 2
+    const match1HomePerf: MatchPlayerPerformance[] = [
+      {
+        playerId: '1-1',
+        player: team1.players[0],
+        sppGained: 8,
+        touchdowns: 2,
+        casualties: 3,
+        mvp: false
+      },
+      {
+        playerId: '1-2',
+        player: team1.players[1],
+        sppGained: 5,
+        touchdowns: 1,
+        casualties: 2,
+        mvp: false
+      },
+      {
+        playerId: '1-3',
+        player: team1.players[2],
+        sppGained: 6,
+        touchdowns: 0,
+        casualties: 4,
+        mvp: false
+      }
+    ];
+
+    const match1AwayPerf: MatchPlayerPerformance[] = [
+      {
+        playerId: '2-1',
+        player: team2.players[0],
+        sppGained: 9,
+        touchdowns: 3,
+        casualties: 1,
+        mvp: true
+      },
+      {
+        playerId: '2-2',
+        player: team2.players[1],
+        sppGained: 4,
+        touchdowns: 1,
+        casualties: 2,
+        mvp: false
+      },
+      {
+        playerId: '2-3',
+        player: team2.players[2],
+        sppGained: 2,
+        touchdowns: 0,
+        casualties: 0,
+        mvp: false
+      }
+    ];
+
+    const match1Casualties: CasualtyDetail[] = [
+      {
+        turn: 3,
+        attackerPlayerId: '1-1',
+        attackerPlayer: team1.players[0],
+        attackerTeamId: '1',
+        victimPlayerId: '2-2',
+        victimPlayer: team2.players[1],
+        victimTeamId: '2',
+        injuryType: 'casualty',
+        injuryDescription: 'Serious Injury',
+        actionType: 'Block'
+      },
+      {
+        turn: 5,
+        attackerPlayerId: '1-3',
+        attackerPlayer: team1.players[2],
+        attackerTeamId: '1',
+        victimPlayerId: '2-3',
+        victimPlayer: team2.players[2],
+        victimTeamId: '2',
+        injuryType: 'ko',
+        actionType: 'Blitz'
+      },
+      {
+        turn: 7,
+        attackerPlayerId: '2-2',
+        attackerPlayer: team2.players[1],
+        attackerTeamId: '2',
+        victimPlayerId: '1-2',
+        victimPlayer: team1.players[1],
+        victimTeamId: '1',
+        injuryType: 'stunned',
+        actionType: 'Block'
+      },
+      {
+        turn: 9,
+        attackerPlayerId: '1-1',
+        attackerPlayer: team1.players[0],
+        attackerTeamId: '1',
+        victimPlayerId: '2-1',
+        victimPlayer: team2.players[0],
+        victimTeamId: '2',
+        injuryType: 'casualty',
+        injuryDescription: 'Niggling Injury',
+        actionType: 'Foul'
+      }
+    ];
+
+    const match1GameLog: GameLogEvent[] = [
+      {
+        turn: 1,
+        half: 1,
+        eventType: 'turn-start',
+        description: 'First half begins - ' + team1.name + ' to receive'
+      },
+      {
+        turn: 3,
+        half: 1,
+        eventType: 'casualty',
+        playerId: '1-1',
+        player: team1.players[0],
+        teamId: '1',
+        description: team1.players[0].name + ' inflicts a serious injury on ' + team2.players[1].name + ' with a powerful block'
+      },
+      {
+        turn: 4,
+        half: 1,
+        eventType: 'touchdown',
+        playerId: '2-1',
+        player: team2.players[0],
+        teamId: '2',
+        description: team2.players[0].name + ' scores a touchdown!'
+      },
+      {
+        turn: 5,
+        half: 1,
+        eventType: 'casualty',
+        playerId: '1-3',
+        player: team1.players[2],
+        teamId: '1',
+        description: team1.players[2].name + ' knocks out ' + team2.players[2].name + ' with a blitz'
+      },
+      {
+        turn: 6,
+        half: 1,
+        eventType: 'touchdown',
+        playerId: '1-2',
+        player: team1.players[1],
+        teamId: '1',
+        description: team1.players[1].name + ' evades the defense and scores!'
+      },
+      {
+        turn: 8,
+        half: 1,
+        eventType: 'half-time',
+        description: 'Half-time - Score: ' + team1.name + ' 1 - ' + team2.name + ' 1'
+      },
+      {
+        turn: 1,
+        half: 2,
+        eventType: 'turn-start',
+        description: 'Second half begins - ' + team2.name + ' to receive'
+      },
+      {
+        turn: 2,
+        half: 2,
+        eventType: 'touchdown',
+        playerId: '2-1',
+        player: team2.players[0],
+        teamId: '2',
+        description: team2.players[0].name + ' scores another touchdown with a brilliant run!'
+      },
+      {
+        turn: 4,
+        half: 2,
+        eventType: 'touchdown',
+        playerId: '1-1',
+        player: team1.players[0],
+        teamId: '1',
+        description: team1.players[0].name + ' powers through for a touchdown'
+      },
+      {
+        turn: 9,
+        half: 2,
+        eventType: 'expulsion',
+        playerId: '1-1',
+        player: team1.players[0],
+        teamId: '1',
+        description: team1.players[0].name + ' is sent off by the referee for a foul!'
+      },
+      {
+        turn: 11,
+        half: 2,
+        eventType: 'touchdown',
+        playerId: '2-1',
+        player: team2.players[0],
+        teamId: '2',
+        description: team2.players[0].name + ' scores a third touchdown!'
+      },
+      {
+        turn: 16,
+        half: 2,
+        eventType: 'game-end',
+        description: 'Final Score: ' + team1.name + ' 2 - ' + team2.name + ' 3'
+      }
+    ];
+
+    const match1: Match = {
+      id: '1',
+      leagueId: '1',
+      season: 3,
+      homeTeam: {
+        teamId: '1',
+        team: team1,
+        touchdowns: 2,
+        casualties: 3,
+        playerPerformances: match1HomePerf,
+        result: MatchResult.LOSS
+      },
+      awayTeam: {
+        teamId: '2',
+        team: team2,
+        touchdowns: 3,
+        casualties: 1,
+        playerPerformances: match1AwayPerf,
+        result: MatchResult.WIN
+      },
+      matchDate: new Date('2024-10-15'),
+      matchWeek: 1,
+      round: 1,
+      status: 'completed',
+      finalScore: {
+        home: 2,
+        away: 3
+      },
+      casualties: match1Casualties,
+      gameLog: match1GameLog
+    };
+
+    return [match1];
+  }
+
+  private matches: Match[] = this.initializeMatches();
+
+  getMatch(matchId: string): Observable<Match | undefined> {
+    const match = this.matches.find(m => m.id === matchId);
+    return of(match);
+  }
+
+  getMatchesByLeague(leagueId: string): Observable<Match[]> {
+    const matches = this.matches.filter(m => m.leagueId === leagueId);
+    return of(matches.sort((a, b) => {
+      const dateA = typeof a.matchDate === 'string' ? new Date(a.matchDate) : a.matchDate;
+      const dateB = typeof b.matchDate === 'string' ? new Date(b.matchDate) : b.matchDate;
+      return dateB.getTime() - dateA.getTime(); // Most recent first
+    }));
+  }
+
+  getMatchesByTeam(teamId: string): Observable<Match[]> {
+    const matches = this.matches.filter(m => 
+      m.homeTeam.teamId === teamId || m.awayTeam.teamId === teamId
+    );
+    return of(matches.sort((a, b) => {
+      const dateA = typeof a.matchDate === 'string' ? new Date(a.matchDate) : a.matchDate;
+      const dateB = typeof b.matchDate === 'string' ? new Date(b.matchDate) : b.matchDate;
+      return dateB.getTime() - dateA.getTime(); // Most recent first
+    }));
+  }
+
+  getMatchesByCoach(coachId: string): Observable<Match[]> {
+    // Get all teams for this coach
+    const coachTeams = this.league.teams.filter(t => t.coachId === coachId);
+    const teamIds = coachTeams.map(t => t.id);
+    
+    // Get matches where any of the coach's teams played
+    const matches = this.matches.filter(m => 
+      teamIds.includes(m.homeTeam.teamId) || teamIds.includes(m.awayTeam.teamId)
+    );
+    return of(matches.sort((a, b) => {
+      const dateA = typeof a.matchDate === 'string' ? new Date(a.matchDate) : a.matchDate;
+      const dateB = typeof b.matchDate === 'string' ? new Date(b.matchDate) : b.matchDate;
+      return dateB.getTime() - dateA.getTime(); // Most recent first
+    }));
   }
 }
 

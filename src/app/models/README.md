@@ -27,9 +27,13 @@ This folder contains TypeScript interfaces for all Blood Bowl 3 data structures.
 - **LeagueConfig**: League configuration and ruleset
 
 ### Match Models (`match.model.ts`)
-- **Match**: Individual match/game information
+- **Match**: Individual match/game information with teams, scores, and game details
 - **MatchTeamPerformance**: Team performance in a specific match
 - **MatchPlayerPerformance**: Individual player performance in a match
+- **CasualtyDetail**: Detailed casualty information showing who inflicted casualties on whom
+- **GameLogEvent**: Game log events for tracking notable actions (touchdowns, casualties, expulsions, etc.)
+- **GameLogEventType**: Types of events that can occur in a match
+- **MatchResult**: Enum for match results (win, draw, loss)
 
 ## Stat Tracking Notes
 
@@ -98,6 +102,7 @@ Or import specific interfaces from specific files:
 ```typescript
 import { Player, PlayerStats, SppBreakdown } from '../../models/player.model';
 import { Coach, CoachStats } from '../../models/coach.model';
+import { Match, MatchResult, CasualtyDetail, GameLogEvent } from '../../models/match.model';
 ```
 
 ## Optional Fields

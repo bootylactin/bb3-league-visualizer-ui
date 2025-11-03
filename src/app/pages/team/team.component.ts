@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { DataService } from '../../services/data.service';
-import { Team, Player } from '../../models';
+import { Team, Player, Match } from '../../models';
 
 @Component({
   selector: 'app-team',
@@ -15,6 +15,7 @@ import { Team, Player } from '../../models';
 export class TeamComponent implements OnInit {
   team: Team | undefined;
   teamId = '';
+  matches: Match[] = [];
   private readonly route = inject(ActivatedRoute);
   private readonly dataService = inject(DataService);
   private readonly titleService = inject(Title);
@@ -29,6 +30,52 @@ export class TeamComponent implements OnInit {
         this.titleService.setTitle(`BB3 League Visualizer - ${team.name}`);
       }
     });
+
+    this.dataService.getMatchesByTeam(this.teamId).subscribe(matches => {
+      this.matches = matches;
+    });
+  }
+
+  formatMatchDate(date: Date | string): string {
+    const d = typeof date === 'string' ? new Date(date) : date;
+    return d.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric' 
+    });
+  }
+
+  getMatchResult(match: Match, teamId: string): 'win' | 'draw' | 'loss' | null {
+    const isHome = match.homeTeam.teamId === teamId;
+    const teamPerf = isHome ? match.homeTeam : match.awayTeam;
+    if (teamPerf.result === 'win') return 'win';
+    if (teamPerf.result === 'draw') return 'draw';
+    if (teamPerf.result === 'loss') return 'loss';
+    return null;
+  }
+
+  getOpponentName(match: Match, teamId: string): string {
+    const isHome = match.homeTeam.teamId === teamId;
+    const opponent = isHome ? match.awayTeam : match.homeTeam;
+    return opponent.team?.name || 'Opponent';
+  }
+
+  getOpponentId(match: Match, teamId: string): string {
+    const isHome = match.homeTeam.teamId === teamId;
+    const opponent = isHome ? match.awayTeam : match.homeTeam;
+    return opponent.teamId;
+  }
+
+  getScoreFor(match: Match, teamId: string): number | null {
+    if (!match.finalScore) return null;
+    const isHome = match.homeTeam.teamId === teamId;
+    return isHome ? match.finalScore.home : match.finalScore.away;
+  }
+
+  getScoreAgainst(match: Match, teamId: string): number | null {
+    if (!match.finalScore) return null;
+    const isHome = match.homeTeam.teamId === teamId;
+    return isHome ? match.finalScore.away : match.finalScore.home;
   }
 
   getTotalGames(): number {

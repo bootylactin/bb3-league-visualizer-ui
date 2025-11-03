@@ -1,0 +1,349 @@
+@if (match) {
+  <div class="match-page">
+    <!-- Header -->
+    <div class="bg-dark text-white py-4 mb-4">
+      <div class="container">
+        <nav aria-label="breadcrumb" class="mb-2">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/league" class="text-white text-decoration-none">League</a></li>
+            <li class="breadcrumb-item active text-white" aria-current="page">Match</li>
+          </ol>
+        </nav>
+        <div class="row align-items-center">
+          <div class="col-md-5 text-center">
+            <h4 class="mb-1">{{ match.homeTeam.team?.name || 'Home Team' }}</h4>
+            <p class="mb-0 text-light small">{{ match.homeTeam.team?.race }}</p>
+          </div>
+          <div class="col-md-2 text-center">
+            @if (match.finalScore) {
+              <h2 class="mb-0">{{ match.finalScore.home }} - {{ match.finalScore.away }}</h2>
+            } @else {
+              <span class="badge bg-secondary">vs</span>
+            }
+          </div>
+          <div class="col-md-5 text-center">
+            <h4 class="mb-1">{{ match.awayTeam.team?.name || 'Away Team' }}</h4>
+            <p class="mb-0 text-light small">{{ match.awayTeam.team?.race }}</p>
+          </div>
+        </div>
+        <div class="text-center mt-3">
+          <span class="badge bg-secondary me-2">{{ formatDate(match.matchDate) }}</span>
+          @if (match.matchWeek) {
+            <span class="badge bg-secondary me-2">Week {{ match.matchWeek }}</span>
+          }
+          @if (match.round) {
+            <span class="badge bg-secondary">Round {{ match.round }}</span>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Match Statistics -->
+      <section class="mb-5">
+        <h2 class="mb-4">Match Statistics</h2>
+        <div class="row g-4">
+          <!-- Home Team Stats -->
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">{{ match.homeTeam.team?.name || 'Home Team' }}</h5>
+              </div>
+              <div class="card-body">
+                <div class="row g-3">
+                  <div class="col-6">
+                    <div class="text-center p-2 bg-light rounded">
+                      <strong class="d-block text-success">{{ match.homeTeam.touchdowns }}</strong>
+                      <small class="text-muted">Touchdowns</small>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="text-center p-2 bg-light rounded">
+                      <strong class="d-block text-danger">{{ match.homeTeam.casualties }}</strong>
+                      <small class="text-muted">Casualties</small>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="text-center p-2">
+                      <span class="badge bg-{{ match.homeTeam.result === 'win' ? 'success' : match.homeTeam.result === 'draw' ? 'warning' : 'secondary' }} text-dark">
+                        {{ match.homeTeam.result === 'win' ? 'Won' : match.homeTeam.result === 'draw' ? 'Draw' : 'Lost' }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Away Team Stats -->
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header bg-info text-white">
+                <h5 class="mb-0">{{ match.awayTeam.team?.name || 'Away Team' }}</h5>
+              </div>
+              <div class="card-body">
+                <div class="row g-3">
+                  <div class="col-6">
+                    <div class="text-center p-2 bg-light rounded">
+                      <strong class="d-block text-success">{{ match.awayTeam.touchdowns }}</strong>
+                      <small class="text-muted">Touchdowns</small>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="text-center p-2 bg-light rounded">
+                      <strong class="d-block text-danger">{{ match.awayTeam.casualties }}</strong>
+                      <small class="text-muted">Casualties</small>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="text-center p-2">
+                      <span class="badge bg-{{ match.awayTeam.result === 'win' ? 'success' : match.awayTeam.result === 'draw' ? 'warning' : 'secondary' }} text-dark">
+                        {{ match.awayTeam.result === 'win' ? 'Won' : match.awayTeam.result === 'draw' ? 'Draw' : 'Lost' }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Casualties -->
+      @if (match.casualties && match.casualties.length > 0) {
+        <section class="mb-5">
+          <h2 class="mb-4">Casualties</h2>
+          
+          <!-- Home Team Casualties Inflicted -->
+          @if (match.homeTeam.team) {
+            <div class="mb-4">
+              <h4 class="mb-3">{{ match.homeTeam.team.name }} - Casualties Inflicted</h4>
+              <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                  <thead class="table-dark">
+                    <tr>
+                      <th>Turn</th>
+                      <th>Attacker</th>
+                      <th>Victim</th>
+                      <th>Action</th>
+                      <th>Injury</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (casualty of getCasualtiesByTeam(match.homeTeam.team.id); track casualty.turn + casualty.attackerPlayerId + casualty.victimPlayerId) {
+                      <tr>
+                        <td>{{ casualty.turn }}</td>
+                        <td>
+                          <a [routerLink]="['/team', casualty.attackerTeamId, 'player', casualty.attackerPlayerId]" class="text-decoration-none">
+                            {{ casualty.attackerPlayer?.name || casualty.attackerPlayerId }}
+                          </a>
+                        </td>
+                        <td>
+                          <a [routerLink]="['/team', casualty.victimTeamId, 'player', casualty.victimPlayerId]" class="text-decoration-none">
+                            {{ casualty.victimPlayer?.name || casualty.victimPlayerId }}
+                          </a>
+                        </td>
+                        <td>{{ casualty.actionType || 'Block' }}</td>
+                        <td>
+                          <span class="badge {{ getInjuryBadgeClass(casualty.injuryType) }}">
+                            {{ casualty.injuryType }}
+                            @if (casualty.injuryDescription) {
+                              - {{ casualty.injuryDescription }}
+                            }
+                          </span>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          }
+
+          <!-- Away Team Casualties Inflicted -->
+          @if (match.awayTeam.team) {
+            <div class="mb-4">
+              <h4 class="mb-3">{{ match.awayTeam.team.name }} - Casualties Inflicted</h4>
+              <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                  <thead class="table-dark">
+                    <tr>
+                      <th>Turn</th>
+                      <th>Attacker</th>
+                      <th>Victim</th>
+                      <th>Action</th>
+                      <th>Injury</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (casualty of getCasualtiesByTeam(match.awayTeam.team.id); track casualty.turn + casualty.attackerPlayerId + casualty.victimPlayerId) {
+                      <tr>
+                        <td>{{ casualty.turn }}</td>
+                        <td>
+                          <a [routerLink]="['/team', casualty.attackerTeamId, 'player', casualty.attackerPlayerId]" class="text-decoration-none">
+                            {{ casualty.attackerPlayer?.name || casualty.attackerPlayerId }}
+                          </a>
+                        </td>
+                        <td>
+                          <a [routerLink]="['/team', casualty.victimTeamId, 'player', casualty.victimPlayerId]" class="text-decoration-none">
+                            {{ casualty.victimPlayer?.name || casualty.victimPlayerId }}
+                          </a>
+                        </td>
+                        <td>{{ casualty.actionType || 'Block' }}</td>
+                        <td>
+                          <span class="badge {{ getInjuryBadgeClass(casualty.injuryType) }}">
+                            {{ casualty.injuryType }}
+                            @if (casualty.injuryDescription) {
+                              - {{ casualty.injuryDescription }}
+                            }
+                          </span>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          }
+        </section>
+      }
+
+      <!-- Game Log -->
+      @if (match.gameLog && match.gameLog.length > 0) {
+        <section class="mb-5">
+          <h2 class="mb-4">Game Log</h2>
+          <div class="timeline">
+            @for (event of getGameLogEvents(); track event.turn + event.half + event.eventType + event.description) {
+              <div class="timeline-item mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex align-items-start">
+                      <div class="me-3">
+                        <span class="badge bg-{{ getEventColor(event.eventType) }} fs-6">
+                          {{ getEventIcon(event.eventType) }}
+                        </span>
+                      </div>
+                      <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between align-items-start mb-1">
+                          <div>
+                            <strong class="text-{{ getEventColor(event.eventType) }}">
+                              {{ event.eventType.charAt(0).toUpperCase() + event.eventType.slice(1) }}
+                            </strong>
+                            @if (event.player) {
+                              <span class="ms-2">
+                                - <a [routerLink]="['/team', event.teamId, 'player', event.playerId]" class="text-decoration-none">
+                                  {{ event.player.name }}
+                                </a>
+                              </span>
+                            }
+                          </div>
+                          <small class="text-muted">
+                            Half {{ event.half }}, Turn {{ event.turn }}
+                          </small>
+                        </div>
+                        <p class="mb-0 text-muted">{{ event.description }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </section>
+      }
+
+      <!-- Player Performances -->
+      <section class="mb-5">
+        <h2 class="mb-4">Player Performances</h2>
+        <div class="row g-4">
+          <!-- Home Team Players -->
+          <div class="col-md-6">
+            <h5>{{ match.homeTeam.team?.name || 'Home Team' }}</h5>
+            <div class="table-responsive">
+              <table class="table table-sm table-striped">
+                <thead class="table-dark">
+                  <tr>
+                    <th>Player</th>
+                    <th>TD</th>
+                    <th>Cas</th>
+                    <th>SPP</th>
+                    <th>MVP</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (perf of match.homeTeam.playerPerformances; track perf.playerId) {
+                    <tr>
+                      <td>
+                        @if (perf.player) {
+                          <a [routerLink]="['/team', match.homeTeam.teamId, 'player', perf.playerId]" class="text-decoration-none">
+                            {{ perf.player.name }}
+                          </a>
+                        } @else {
+                          {{ perf.playerId }}
+                        }
+                      </td>
+                      <td>{{ perf.touchdowns || 0 }}</td>
+                      <td>{{ perf.casualties || 0 }}</td>
+                      <td>{{ perf.sppGained }}</td>
+                      <td>
+                        @if (perf.mvp) {
+                          <span class="badge bg-warning text-dark">⭐</span>
+                        }
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Away Team Players -->
+          <div class="col-md-6">
+            <h5>{{ match.awayTeam.team?.name || 'Away Team' }}</h5>
+            <div class="table-responsive">
+              <table class="table table-sm table-striped">
+                <thead class="table-dark">
+                  <tr>
+                    <th>Player</th>
+                    <th>TD</th>
+                    <th>Cas</th>
+                    <th>SPP</th>
+                    <th>MVP</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (perf of match.awayTeam.playerPerformances; track perf.playerId) {
+                    <tr>
+                      <td>
+                        @if (perf.player) {
+                          <a [routerLink]="['/team', match.awayTeam.teamId, 'player', perf.playerId]" class="text-decoration-none">
+                            {{ perf.player.name }}
+                          </a>
+                        } @else {
+                          {{ perf.playerId }}
+                        }
+                      </td>
+                      <td>{{ perf.touchdowns || 0 }}</td>
+                      <td>{{ perf.casualties || 0 }}</td>
+                      <td>{{ perf.sppGained }}</td>
+                      <td>
+                        @if (perf.mvp) {
+                          <span class="badge bg-warning text-dark">⭐</span>
+                        }
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+} @else {
+  <div class="container py-5">
+    <div class="alert alert-warning">Match not found.</div>
+  </div>
+}
+
