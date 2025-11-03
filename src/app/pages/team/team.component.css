@@ -1,0 +1,22 @@
+.team-page {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.card {
+  border: none;
+}
+
+.table-responsive {
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+
+.breadcrumb {
+  margin-bottom: 0;
+}
+
+.breadcrumb-item a:hover {
+  text-decoration: underline !important;
+}
+

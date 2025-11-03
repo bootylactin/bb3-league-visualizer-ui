@@ -1,0 +1,189 @@
+<div class="league-page">
+  <!-- Header -->
+  <div class="bg-dark text-white py-4 mb-4">
+    <div class="container">
+      <h1 class="mb-0">{{ league?.name }}</h1>
+      <p class="mb-0 text-light">Season {{ league?.season }}</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Current Standings -->
+    <section class="mb-5">
+      <h2 class="mb-4">Current Standings</h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>Position</th>
+              <th>Team</th>
+              <th>Coach</th>
+              <th>Race</th>
+              <th>W</th>
+              <th>D</th>
+              <th>L</th>
+              <th>TD For</th>
+              <th>TD Against</th>
+              <th>Cas For</th>
+              <th>Cas Against</th>
+              <th>Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (team of league?.teams; track team.id; let i = $index) {
+              <tr>
+                <td><strong>{{ i + 1 }}</strong></td>
+                <td>
+                  <a [routerLink]="['/team', team.id]" class="text-decoration-none">
+                    {{ team.name }}
+                  </a>
+                </td>
+                <td>{{ team.coach }}</td>
+                <td>{{ team.race }}</td>
+                <td>{{ team.stats.wins ?? team.wins ?? 0 }}</td>
+                <td>{{ team.stats.draws ?? team.draws ?? 0 }}</td>
+                <td>{{ team.stats.losses ?? team.losses ?? 0 }}</td>
+                <td>{{ team.stats.touchdownsFor ?? team.touchdownsFor ?? 0 }}</td>
+                <td>{{ team.stats.touchdownsAgainst ?? team.touchdownsAgainst ?? 0 }}</td>
+                <td>{{ team.stats.casualtiesFor ?? team.casualtiesFor ?? 0 }}</td>
+                <td>{{ team.stats.casualtiesAgainst ?? team.casualtiesAgainst ?? 0 }}</td>
+                <td><strong>{{ getTeamPoints(team) }}</strong></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- All Stars Section -->
+    <section class="mb-5">
+      <h2 class="mb-4">⭐ League All Stars ⭐</h2>
+      
+      <div class="row g-4">
+        <!-- Star Player Points Champions -->
+        <div class="col-lg-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-header bg-warning text-dark">
+              <h4 class="mb-0">🏆 The Legendary Legacy Builders</h4>
+              <small class="text-muted">Top SPP Accumulators</small>
+            </div>
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                @for (player of topSpp; track player.id; let i = $index) {
+                  <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <strong>{{ i + 1 }}.</strong>
+                        <a [routerLink]="['/team', player.teamId, 'player', player.id]" class="text-decoration-none ms-2">
+                          {{ player.name }}
+                        </a>
+                        <small class="text-muted d-block">{{ getTeamById(player.teamId)?.name }} - {{ player.position }}</small>
+                      </div>
+                      <span class="badge bg-warning text-dark">{{ getPlayerSpp(player) }} SPP</span>
+                    </div>
+                  </li>
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Casualties Champions -->
+        <div class="col-lg-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-header bg-danger text-white">
+              <h4 class="mb-0">⚔️ The Butchers of the Gridiron</h4>
+              <small class="text-light">Most Casualties Inflicted</small>
+            </div>
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                @for (player of topCasualties; track player.id; let i = $index) {
+                  <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <strong>{{ i + 1 }}.</strong>
+                        <a [routerLink]="['/team', player.teamId, 'player', player.id]" class="text-decoration-none ms-2">
+                          {{ player.name }}
+                        </a>
+                        <small class="text-muted d-block">{{ getTeamById(player.teamId)?.name }} - {{ player.position }}</small>
+                      </div>
+                      <span class="badge bg-danger">{{ getPlayerCasualties(player) }} Casualties</span>
+                    </div>
+                  </li>
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Touchdown Champions -->
+        <div class="col-lg-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-header bg-success text-white">
+              <h4 class="mb-0">🏈 The End Zone Bandits</h4>
+              <small class="text-light">Touchdown Leaders</small>
+            </div>
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                @for (player of topTouchdowns; track player.id; let i = $index) {
+                  <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <strong>{{ i + 1 }}.</strong>
+                        <a [routerLink]="['/team', player.teamId, 'player', player.id]" class="text-decoration-none ms-2">
+                          {{ player.name }}
+                        </a>
+                        <small class="text-muted d-block">{{ getTeamById(player.teamId)?.name }} - {{ player.position }}</small>
+                      </div>
+                      <span class="badge bg-success">{{ getPlayerTouchdowns(player) }} TDs</span>
+                    </div>
+                  </li>
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="mb-5">
+      <h2 class="mb-4">League Statistics</h2>
+      <div class="row g-4">
+        <div class="col-md-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title text-muted">Total Teams</h5>
+              <h2 class="mb-0">{{ getTotalTeams() }}</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title text-muted">Total Players</h5>
+              <h2 class="mb-0">{{ getTotalPlayers() }}</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title text-muted">Total Touchdowns</h5>
+              <h2 class="mb-0">{{ getTotalTouchdowns() }}</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title text-muted">Total Casualties</h5>
+              <h2 class="mb-0">{{ getTotalCasualties() }}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+

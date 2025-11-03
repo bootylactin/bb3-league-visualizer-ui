@@ -1,0 +1,119 @@
+@if (team) {
+  <div class="team-page">
+    <!-- Header -->
+    <div class="bg-primary text-white py-4 mb-4">
+      <div class="container">
+        <nav aria-label="breadcrumb" class="mb-2">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/league" class="text-white text-decoration-none">League</a></li>
+            <li class="breadcrumb-item active text-white" aria-current="page">{{ team.name }}</li>
+          </ol>
+        </nav>
+        <h1 class="mb-0">{{ team.name }}</h1>
+        <p class="mb-0 text-light">Coach: {{ team.coach }} | Race: {{ team.race }}</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Team Statistics -->
+      <section class="mb-5">
+        <h2 class="mb-4">Team Statistics</h2>
+        <div class="row g-4 mb-4">
+          <div class="col-md-3">
+            <div class="card text-center">
+              <div class="card-body">
+                <h5 class="card-title text-muted">Record</h5>
+                <h3 class="mb-0">{{ getTeamStat('wins') }}-{{ getTeamStat('draws') }}-{{ getTeamStat('losses') }}</h3>
+                <small class="text-muted">{{ getWinPercentage() }}% Win Rate</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card text-center">
+              <div class="card-body">
+                <h5 class="card-title text-muted">Touchdowns</h5>
+                <h3 class="mb-0 text-success">{{ getTeamStat('touchdownsFor') }}</h3>
+                <small class="text-muted">For / {{ getTeamStat('touchdownsAgainst') }} Against</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card text-center">
+              <div class="card-body">
+                <h5 class="card-title text-muted">Casualties</h5>
+                <h3 class="mb-0 text-danger">{{ getTeamStat('casualtiesFor') }}</h3>
+                <small class="text-muted">Inflicted / {{ getTeamStat('casualtiesAgainst') }} Suffered</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card text-center">
+              <div class="card-body">
+                <h5 class="card-title text-muted">Team Value</h5>
+                <h3 class="mb-0">{{ formatGold(getTeamValue()) }}</h3>
+                <small class="text-muted">Treasury: {{ formatGold(getTreasury()) }}gp</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Roster -->
+      <section class="mb-5">
+        <h2 class="mb-4">Roster</h2>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead class="table-dark">
+              <tr>
+                <th>Player</th>
+                <th>Position</th>
+                <th>Level</th>
+                <th>SPP</th>
+                <th>TDs</th>
+                <th>Cas</th>
+                <th>Skills</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (player of team.players; track player.id) {
+                <tr>
+                  <td>
+                    <strong>{{ player.name }}</strong>
+                    @if (player.injuries.length > 0) {
+                      <span class="badge bg-warning text-dark ms-2" title="Injuries: {{ player.injuries.join(', ') }}">
+                        ⚠️
+                      </span>
+                    }
+                  </td>
+                  <td>{{ player.position }}</td>
+                  <td>
+                    <span class="badge bg-info">{{ player.level }}</span>
+                  </td>
+                  <td>{{ player.stats.spp.total ?? player.spp ?? 0 }}</td>
+                  <td>{{ player.stats.offense.touchdowns ?? player.touchdowns ?? 0 }}</td>
+                  <td>{{ player.stats.violenceInflicted?.casualties ?? player.casualties ?? 0 }}</td>
+                  <td>
+                    @for (skill of player.skills; track skill) {
+                      <span class="badge bg-secondary me-1">{{ skill }}</span>
+                    }
+                  </td>
+                  <td>
+                    <a [routerLink]="['/team', team.id, 'player', player.id]" class="btn btn-sm btn-primary">
+                      View Details
+                    </a>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+} @else {
+  <div class="container py-5">
+    <div class="alert alert-warning">Team not found.</div>
+  </div>
+}
+
