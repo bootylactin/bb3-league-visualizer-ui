@@ -10,7 +10,9 @@
           </ol>
         </nav>
         <h1 class="mb-0">{{ team.name }}</h1>
-        <p class="mb-0 text-light">Coach: {{ team.coach }} | Race: {{ team.race }}</p>
+        <p class="mb-0 text-light">
+          Coach: <a [routerLink]="['/coach', team.coachId]" class="text-white text-decoration-underline">{{ team.coach || team.coachId }}</a> | Race: {{ team.race }}
+        </p>
       </div>
     </div>
 

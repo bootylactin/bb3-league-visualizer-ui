@@ -28,8 +28,11 @@ export interface Team {
   // Basic Information
   id: string;
   name: string;
-  coach: string;
+  coachId: string; // Reference to coach ID
   race: string;
+
+  // Legacy/Compatibility fields
+  coach?: string; // Kept for backward compatibility, use coachId for new code
 
   // Statistics
   stats: TeamStats;

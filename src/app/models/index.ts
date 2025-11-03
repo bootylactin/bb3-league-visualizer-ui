@@ -15,3 +15,6 @@ export * from './league.model';
 // Match Models
 export * from './match.model';
 
+// Coach Models
+export * from './coach.model';
+

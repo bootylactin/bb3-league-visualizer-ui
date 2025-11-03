@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Player, Team, League, PlayerStats, SppBreakdown, OffenseStats, PassingStats, AgilityStats, StrengthStats, ViolenceInflictedStats, ViolenceSustainedStats, SuccessAttempts } from '../models';
+import { Player, Team, League, Coach, PlayerStats, SppBreakdown, OffenseStats, PassingStats, AgilityStats, StrengthStats, ViolenceInflictedStats, ViolenceSustainedStats, SuccessAttempts } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -123,7 +123,8 @@ export class DataService {
   private createTeam(
     id: string,
     name: string,
-    coach: string,
+    coachId: string,
+    coachName: string,
     race: string,
     wins: number,
     draws: number,
@@ -139,7 +140,8 @@ export class DataService {
     return {
       id,
       name,
-      coach,
+      coachId,
+      coach: coachName, // Legacy field for backward compatibility
       race,
       stats: {
         wins,
@@ -167,6 +169,88 @@ export class DataService {
       teamValue
     };
   }
+
+  private initializeCoaches(): Coach[] {
+    return [
+      {
+        id: '1',
+        name: 'Grashnak Ironjaw',
+        stats: {
+          totalWins: 8,
+          totalDraws: 1,
+          totalLosses: 2,
+          totalTouchdownsFor: 24,
+          totalTouchdownsAgainst: 18,
+          totalCasualtiesFor: 31,
+          totalCasualtiesAgainst: 19,
+          seasonsCoached: 1,
+          championships: 0
+        }
+      },
+      {
+        id: '2',
+        name: 'Sneaky Git',
+        stats: {
+          totalWins: 9,
+          totalDraws: 0,
+          totalLosses: 2,
+          totalTouchdownsFor: 28,
+          totalTouchdownsAgainst: 15,
+          totalCasualtiesFor: 18,
+          totalCasualtiesAgainst: 25,
+          seasonsCoached: 1,
+          championships: 0
+        }
+      },
+      {
+        id: '3',
+        name: 'Skullcracker',
+        stats: {
+          totalWins: 6,
+          totalDraws: 2,
+          totalLosses: 3,
+          totalTouchdownsFor: 19,
+          totalTouchdownsAgainst: 21,
+          totalCasualtiesFor: 28,
+          totalCasualtiesAgainst: 16,
+          seasonsCoached: 1,
+          championships: 0
+        }
+      },
+      {
+        id: '4',
+        name: 'Lionheart',
+        stats: {
+          totalWins: 7,
+          totalDraws: 1,
+          totalLosses: 3,
+          totalTouchdownsFor: 22,
+          totalTouchdownsAgainst: 19,
+          totalCasualtiesFor: 15,
+          totalCasualtiesAgainst: 22,
+          seasonsCoached: 1,
+          championships: 0
+        }
+      },
+      {
+        id: '5',
+        name: 'Necromancer',
+        stats: {
+          totalWins: 5,
+          totalDraws: 1,
+          totalLosses: 5,
+          totalTouchdownsFor: 17,
+          totalTouchdownsAgainst: 20,
+          totalCasualtiesFor: 22,
+          totalCasualtiesAgainst: 18,
+          seasonsCoached: 1,
+          championships: 0
+        }
+      }
+    ];
+  }
+
+  private coaches: Coach[] = this.initializeCoaches();
 
   private initializeLeague(): League {
     const team1Players = [
@@ -209,11 +293,11 @@ export class DataService {
       name: 'The Brutal Ball League',
       season: 3,
       teams: [
-        this.createTeam('1', 'Grashnak\'s Green Death', 'Grashnak Ironjaw', 'Orc', 8, 1, 2, 24, 18, 31, 19, 120000, 1580000, team1Players),
-        this.createTeam('2', 'The Swift Shadows', 'Sneaky Git', 'Dark Elf', 9, 0, 2, 28, 15, 18, 25, 95000, 1450000, team2Players),
-        this.createTeam('3', 'The Bone Crushers', 'Skullcracker', 'Chaos', 6, 2, 3, 19, 21, 28, 16, 110000, 1520000, team3Players),
-        this.createTeam('4', 'The Golden Griffons', 'Lionheart', 'Human', 7, 1, 3, 22, 19, 15, 22, 105000, 1390000, team4Players),
-        this.createTeam('5', 'Undead Legion', 'Necromancer', 'Undead', 5, 1, 5, 17, 20, 22, 18, 98000, 1320000, team5Players)
+        this.createTeam('1', 'Grashnak\'s Green Death', '1', 'Grashnak Ironjaw', 'Orc', 8, 1, 2, 24, 18, 31, 19, 120000, 1580000, team1Players),
+        this.createTeam('2', 'The Swift Shadows', '2', 'Sneaky Git', 'Dark Elf', 9, 0, 2, 28, 15, 18, 25, 95000, 1450000, team2Players),
+        this.createTeam('3', 'The Bone Crushers', '3', 'Skullcracker', 'Chaos', 6, 2, 3, 19, 21, 28, 16, 110000, 1520000, team3Players),
+        this.createTeam('4', 'The Golden Griffons', '4', 'Lionheart', 'Human', 7, 1, 3, 22, 19, 15, 22, 105000, 1390000, team4Players),
+        this.createTeam('5', 'Undead Legion', '5', 'Necromancer', 'Undead', 5, 1, 5, 17, 20, 22, 18, 98000, 1320000, team5Players)
       ]
     };
   }
@@ -268,6 +352,16 @@ export class DataService {
       return bTd - aTd;
     });
     return of(sorted.slice(0, count));
+  }
+
+  getCoach(coachId: string): Observable<Coach | undefined> {
+    const coach = this.coaches.find(c => c.id === coachId);
+    return of(coach);
+  }
+
+  getTeamsByCoach(coachId: string): Observable<Team[]> {
+    const teams = this.league.teams.filter(t => t.coachId === coachId);
+    return of(teams);
   }
 }
 

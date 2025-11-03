@@ -38,7 +38,11 @@
                     {{ team.name }}
                   </a>
                 </td>
-                <td>{{ team.coach }}</td>
+                <td>
+                  <a [routerLink]="['/coach', team.coachId]" class="text-decoration-none">
+                    {{ team.coach || team.coachId }}
+                  </a>
+                </td>
                 <td>{{ team.race }}</td>
                 <td>{{ getTeamWins(team) }}</td>
                 <td>{{ getTeamDraws(team) }}</td>

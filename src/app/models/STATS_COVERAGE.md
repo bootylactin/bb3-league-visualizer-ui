@@ -91,6 +91,23 @@ This document verifies all statistics mentioned in the requirements are accounte
 - ✅ `financials.treasury` - Treasury
 - ✅ `financials.teamValue` - Team Value
 
+### Team-Coach Relationship
+- ✅ `coachId` - Reference to coach ID (primary)
+- ✅ `coach` - Legacy coach name field (backward compatibility)
+
+## Coach Stats - Fully Covered
+
+### Coach Statistics
+- ✅ `stats.totalWins` - Total wins across all teams
+- ✅ `stats.totalDraws` - Total draws across all teams
+- ✅ `stats.totalLosses` - Total losses across all teams
+- ✅ `stats.totalTouchdownsFor` - Total touchdowns for across all teams
+- ✅ `stats.totalTouchdownsAgainst` - Total touchdowns against across all teams
+- ✅ `stats.totalCasualtiesFor` - Total casualties inflicted across all teams
+- ✅ `stats.totalCasualtiesAgainst` - Total casualties sustained across all teams
+- ✅ `stats.seasonsCoached` - Number of seasons coached (optional)
+- ✅ `stats.championships` - Number of championships won (optional)
+
 ## League Stats - Fully Covered
 
 - ✅ League name and ID

@@ -12,5 +12,9 @@ export const routes: Routes = [
   { 
     path: 'team/:teamId/player/:playerId', 
     loadComponent: () => import('./pages/player/player.component').then(m => m.PlayerComponent)
+  },
+  { 
+    path: 'coach/:id', 
+    loadComponent: () => import('./pages/coach/coach.component').then(m => m.CoachComponent)
   }
 ];

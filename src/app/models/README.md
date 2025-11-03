@@ -14,6 +14,12 @@ This folder contains TypeScript interfaces for all Blood Bowl 3 data structures.
 - **Team**: Complete team information with stats and financials
 - **TeamStats**: Team-level statistics
 - **TeamFinancials**: Treasury and team value information
+- Teams reference coaches via `coachId` field
+
+### Coach Models (`coach.model.ts`)
+- **Coach**: Complete coach information with career statistics
+- **CoachStats**: Coaching statistics aggregated across all teams
+- Coaches can have multiple teams throughout their career
 
 ### League Models (`league.model.ts`)
 - **League**: Complete league information
@@ -80,17 +86,18 @@ Import models from the index file:
 
 From components/pages (relative path):
 ```typescript
-import { Player, Team, League, Match } from '../../models';
+import { Player, Team, League, Match, Coach } from '../../models';
 ```
 
 From services (relative path):
 ```typescript
-import { Player, Team, League, Match } from '../models';
+import { Player, Team, League, Match, Coach } from '../models';
 ```
 
 Or import specific interfaces from specific files:
 ```typescript
 import { Player, PlayerStats, SppBreakdown } from '../../models/player.model';
+import { Coach, CoachStats } from '../../models/coach.model';
 ```
 
 ## Optional Fields
