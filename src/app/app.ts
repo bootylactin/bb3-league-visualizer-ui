@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { RouterOutlet, RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
@@ -10,8 +10,7 @@ import { filter } from 'rxjs/operators';
 })
 export class App implements OnInit {
   protected readonly title = signal('Blood Bowl 3 League Visualizer');
-
-  constructor(private router: Router) {}
+  private readonly router = inject(Router);
 
   ngOnInit(): void {
     this.router.events.pipe(

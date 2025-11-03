@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { DataService } from '../../services/data.service';
-import { Team } from '../../models';
+import { Team, Player } from '../../models';
 
 @Component({
   selector: 'app-team',
@@ -14,13 +14,10 @@ import { Team } from '../../models';
 })
 export class TeamComponent implements OnInit {
   team: Team | undefined;
-  teamId: string = '';
-
-  constructor(
-    private route: ActivatedRoute,
-    private dataService: DataService,
-    private titleService: Title
-  ) {}
+  teamId = '';
+  private readonly route = inject(ActivatedRoute);
+  private readonly dataService = inject(DataService);
+  private readonly titleService = inject(Title);
 
   ngOnInit(): void {
     this.teamId = this.route.snapshot.paramMap.get('id') || '';
@@ -69,15 +66,15 @@ export class TeamComponent implements OnInit {
   }
 
   // Helper methods to access player stats with backward compatibility
-  getPlayerSpp(player: any): number {
+  getPlayerSpp(player: Player): number {
     return player.stats.spp.total || player.spp || 0;
   }
 
-  getPlayerTouchdowns(player: any): number {
+  getPlayerTouchdowns(player: Player): number {
     return player.stats.offense.touchdowns || player.touchdowns || 0;
   }
 
-  getPlayerCasualties(player: any): number {
+  getPlayerCasualties(player: Player): number {
     return player.stats.violenceInflicted?.casualties || player.casualties || 0;
   }
 }

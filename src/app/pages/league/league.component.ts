@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
@@ -17,11 +17,8 @@ export class LeagueComponent implements OnInit {
   topSpp: Player[] = [];
   topCasualties: Player[] = [];
   topTouchdowns: Player[] = [];
-
-  constructor(
-    private dataService: DataService,
-    private titleService: Title
-  ) {}
+  private readonly dataService = inject(DataService);
+  private readonly titleService = inject(Title);
 
   ngOnInit(): void {
     this.titleService.setTitle('BB3 League Visualizer - League');
@@ -57,7 +54,7 @@ export class LeagueComponent implements OnInit {
   }
 
   getTotalTeams(): number {
-    return this.league?.teams?.length ?? 0;
+    return this.league?.teams?.length || 0;
   }
 
   getTotalPlayers(): number {

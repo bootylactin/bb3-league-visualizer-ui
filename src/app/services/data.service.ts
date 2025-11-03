@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Player, Team, League, Coach, PlayerStats, SppBreakdown, OffenseStats, PassingStats, AgilityStats, StrengthStats, ViolenceInflictedStats, ViolenceSustainedStats, SuccessAttempts } from '../models';
+import { Player, Team, League, Coach, PlayerStats, SppBreakdown, OffenseStats, PassingStats, AgilityStats, StrengthStats, ViolenceInflictedStats } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -324,31 +324,31 @@ export class DataService {
     return of(allPlayers);
   }
 
-  getTopPlayersBySpp(count: number = 5): Observable<Player[]> {
+  getTopPlayersBySpp(count = 5): Observable<Player[]> {
     const allPlayers = this.league.teams.flatMap(team => team.players);
     const sorted = [...allPlayers].sort((a, b) => {
-      const aSpp = a.stats.spp.total ?? a.spp ?? 0;
-      const bSpp = b.stats.spp.total ?? b.spp ?? 0;
+      const aSpp = a.stats.spp.total || a.spp || 0;
+      const bSpp = b.stats.spp.total || b.spp || 0;
       return bSpp - aSpp;
     });
     return of(sorted.slice(0, count));
   }
 
-  getTopPlayersByCasualties(count: number = 5): Observable<Player[]> {
+  getTopPlayersByCasualties(count = 5): Observable<Player[]> {
     const allPlayers = this.league.teams.flatMap(team => team.players);
     const sorted = [...allPlayers].sort((a, b) => {
-      const aCas = a.stats.violenceInflicted?.casualties ?? a.casualties ?? 0;
-      const bCas = b.stats.violenceInflicted?.casualties ?? b.casualties ?? 0;
+      const aCas = a.stats.violenceInflicted?.casualties || a.casualties || 0;
+      const bCas = b.stats.violenceInflicted?.casualties || b.casualties || 0;
       return bCas - aCas;
     });
     return of(sorted.slice(0, count));
   }
 
-  getTopPlayersByTouchdowns(count: number = 5): Observable<Player[]> {
+  getTopPlayersByTouchdowns(count = 5): Observable<Player[]> {
     const allPlayers = this.league.teams.flatMap(team => team.players);
     const sorted = [...allPlayers].sort((a, b) => {
-      const aTd = a.stats.offense.touchdowns ?? a.touchdowns ?? 0;
-      const bTd = b.stats.offense.touchdowns ?? b.touchdowns ?? 0;
+      const aTd = a.stats.offense.touchdowns || a.touchdowns || 0;
+      const bTd = b.stats.offense.touchdowns || b.touchdowns || 0;
       return bTd - aTd;
     });
     return of(sorted.slice(0, count));

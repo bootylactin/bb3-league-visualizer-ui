@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
@@ -15,14 +15,11 @@ import { Player, Team } from '../../models';
 export class PlayerComponent implements OnInit {
   player: Player | undefined;
   team: Team | undefined;
-  teamId: string = '';
-  playerId: string = '';
-
-  constructor(
-    private route: ActivatedRoute,
-    private dataService: DataService,
-    private titleService: Title
-  ) {}
+  teamId = '';
+  playerId = '';
+  private readonly route = inject(ActivatedRoute);
+  private readonly dataService = inject(DataService);
+  private readonly titleService = inject(Title);
 
   ngOnInit(): void {
     this.teamId = this.route.snapshot.paramMap.get('teamId') || '';
@@ -49,42 +46,42 @@ export class PlayerComponent implements OnInit {
   // Helper methods to access player stats with backward compatibility
   getPlayerSpp(): number {
     if (!this.player) return 0;
-    return this.player.stats?.spp?.total ?? this.player.spp ?? 0;
+    return this.player.stats.spp.total || this.player.spp || 0;
   }
 
   getPlayerTouchdowns(): number {
     if (!this.player) return 0;
-    return this.player.stats?.offense?.touchdowns ?? this.player.touchdowns ?? 0;
+    return this.player.stats.offense.touchdowns || this.player.touchdowns || 0;
   }
 
   getPlayerCasualties(): number {
     if (!this.player) return 0;
-    return this.player.stats?.violenceInflicted?.casualties ?? this.player.casualties ?? 0;
+    return this.player.stats.violenceInflicted?.casualties || this.player.casualties || 0;
   }
 
   getPlayerCompletions(): number {
     if (!this.player) return 0;
-    return this.player.stats?.passing?.passes?.successes ?? this.player.completions ?? 0;
+    return this.player.stats.passing?.passes?.successes || this.player.completions || 0;
   }
 
   getPlayerInterceptions(): number {
     if (!this.player) return 0;
-    return this.player.stats?.defense?.interceptions?.successes ?? this.player.interceptions ?? 0;
+    return this.player.stats.defense?.interceptions?.successes || this.player.interceptions || 0;
   }
 
   getPlayerYardsRan(): number {
     if (!this.player) return 0;
-    return this.player.stats?.offense?.yardsRunning ?? this.player.yardsRan ?? 0;
+    return this.player.stats.offense.yardsRunning || this.player.yardsRan || 0;
   }
 
   getPlayerYardsPassed(): number {
     if (!this.player) return 0;
-    return this.player.stats?.offense?.yardsPassing ?? this.player.yardsPassed ?? 0;
+    return this.player.stats.offense.yardsPassing || this.player.yardsPassed || 0;
   }
 
   getPlayerMvpCount(): number {
     if (!this.player) return 0;
-    return this.player.stats?.mvpCount ?? this.player.mvpCount ?? 0;
+    return this.player.stats.mvpCount || this.player.mvpCount || 0;
   }
 }
 

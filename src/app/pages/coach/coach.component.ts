@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
@@ -14,14 +14,11 @@ import { Coach, Team } from '../../models';
 })
 export class CoachComponent implements OnInit {
   coach: Coach | undefined;
-  coachId: string = '';
+  coachId = '';
   teams: Team[] = [];
-
-  constructor(
-    private route: ActivatedRoute,
-    private dataService: DataService,
-    private titleService: Title
-  ) {}
+  private readonly route = inject(ActivatedRoute);
+  private readonly dataService = inject(DataService);
+  private readonly titleService = inject(Title);
 
   ngOnInit(): void {
     this.coachId = this.route.snapshot.paramMap.get('id') || '';
@@ -61,7 +58,7 @@ export class CoachComponent implements OnInit {
       return statsValue;
     }
     // Fallback to legacy field if it exists (only for numeric stats)
-    const legacyValue = (this.coach as any)[stat];
+    const legacyValue = (this.coach as unknown as Record<string, unknown>)[stat];
     return typeof legacyValue === 'number' ? legacyValue : 0;
   }
 }

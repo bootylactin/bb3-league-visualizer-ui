@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
@@ -11,7 +11,7 @@ import { Title } from '@angular/platform-browser';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
-  constructor(private titleService: Title) {}
+  private readonly titleService = inject(Title);
 
   ngOnInit(): void {
     this.titleService.setTitle('BB3 League Visualizer - Home');
