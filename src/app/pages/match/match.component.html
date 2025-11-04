@@ -118,7 +118,9 @@
           @if (match.homeTeam.team) {
             <div class="mb-4">
               <h4 class="mb-3">{{ match.homeTeam.team.name }} - Casualties Inflicted</h4>
-              <div class="table-responsive">
+              
+              <!-- Desktop Table View -->
+              <div class="table-responsive d-none d-md-block">
                 <table class="table table-sm table-striped">
                   <thead class="table-dark">
                     <tr>
@@ -157,6 +159,42 @@
                   </tbody>
                 </table>
               </div>
+
+              <!-- Mobile Card View -->
+              <div class="d-md-none">
+                @for (casualty of getCasualtiesByTeam(match.homeTeam.team.id); track casualty.turn + casualty.attackerPlayerId + casualty.victimPlayerId) {
+                  <div class="card mb-2">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div>
+                          <strong>Turn {{ casualty.turn }}</strong>
+                          <small class="text-muted ms-2">{{ casualty.actionType || 'Block' }}</small>
+                        </div>
+                        <span class="badge {{ getInjuryBadgeClass(casualty.injuryType) }}">
+                          {{ casualty.injuryType }}
+                        </span>
+                      </div>
+                      <div class="small mb-1">
+                        <strong>Attacker:</strong>
+                        <a [routerLink]="['/team', casualty.attackerTeamId, 'player', casualty.attackerPlayerId]" class="text-decoration-none ms-1">
+                          {{ casualty.attackerPlayer?.name || casualty.attackerPlayerId }}
+                        </a>
+                      </div>
+                      <div class="small mb-1">
+                        <strong>Victim:</strong>
+                        <a [routerLink]="['/team', casualty.victimTeamId, 'player', casualty.victimPlayerId]" class="text-decoration-none ms-1">
+                          {{ casualty.victimPlayer?.name || casualty.victimPlayerId }}
+                        </a>
+                      </div>
+                      @if (casualty.injuryDescription) {
+                        <div class="small text-muted">
+                          {{ casualty.injuryDescription }}
+                        </div>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
             </div>
           }
 
@@ -164,7 +202,9 @@
           @if (match.awayTeam.team) {
             <div class="mb-4">
               <h4 class="mb-3">{{ match.awayTeam.team.name }} - Casualties Inflicted</h4>
-              <div class="table-responsive">
+              
+              <!-- Desktop Table View -->
+              <div class="table-responsive d-none d-md-block">
                 <table class="table table-sm table-striped">
                   <thead class="table-dark">
                     <tr>
@@ -202,6 +242,42 @@
                     }
                   </tbody>
                 </table>
+              </div>
+
+              <!-- Mobile Card View -->
+              <div class="d-md-none">
+                @for (casualty of getCasualtiesByTeam(match.awayTeam.team.id); track casualty.turn + casualty.attackerPlayerId + casualty.victimPlayerId) {
+                  <div class="card mb-2">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div>
+                          <strong>Turn {{ casualty.turn }}</strong>
+                          <small class="text-muted ms-2">{{ casualty.actionType || 'Block' }}</small>
+                        </div>
+                        <span class="badge {{ getInjuryBadgeClass(casualty.injuryType) }}">
+                          {{ casualty.injuryType }}
+                        </span>
+                      </div>
+                      <div class="small mb-1">
+                        <strong>Attacker:</strong>
+                        <a [routerLink]="['/team', casualty.attackerTeamId, 'player', casualty.attackerPlayerId]" class="text-decoration-none ms-1">
+                          {{ casualty.attackerPlayer?.name || casualty.attackerPlayerId }}
+                        </a>
+                      </div>
+                      <div class="small mb-1">
+                        <strong>Victim:</strong>
+                        <a [routerLink]="['/team', casualty.victimTeamId, 'player', casualty.victimPlayerId]" class="text-decoration-none ms-1">
+                          {{ casualty.victimPlayer?.name || casualty.victimPlayerId }}
+                        </a>
+                      </div>
+                      @if (casualty.injuryDescription) {
+                        <div class="small text-muted">
+                          {{ casualty.injuryDescription }}
+                        </div>
+                      }
+                    </div>
+                  </div>
+                }
               </div>
             </div>
           }
@@ -259,7 +335,9 @@
           <!-- Home Team Players -->
           <div class="col-md-6">
             <h5>{{ match.homeTeam.team?.name || 'Home Team' }}</h5>
-            <div class="table-responsive">
+            
+            <!-- Desktop Table View -->
+            <div class="table-responsive d-none d-md-block">
               <table class="table table-sm table-striped">
                 <thead class="table-dark">
                   <tr>
@@ -295,12 +373,52 @@
                 </tbody>
               </table>
             </div>
+
+            <!-- Mobile Card View -->
+            <div class="d-md-none">
+              @for (perf of match.homeTeam.playerPerformances; track perf.playerId) {
+                <div class="card mb-2">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                      <div class="flex-grow-1">
+                        @if (perf.player) {
+                          <a [routerLink]="['/team', match.homeTeam.teamId, 'player', perf.playerId]" class="text-decoration-none">
+                            <strong>{{ perf.player.name }}</strong>
+                          </a>
+                        } @else {
+                          <strong>{{ perf.playerId }}</strong>
+                        }
+                      </div>
+                      @if (perf.mvp) {
+                        <span class="badge bg-warning text-dark">⭐ MVP</span>
+                      }
+                    </div>
+                    <div class="row g-2 text-center mt-2">
+                      <div class="col-4">
+                        <div class="small text-muted">TD</div>
+                        <div class="fw-bold text-success">{{ perf.touchdowns || 0 }}</div>
+                      </div>
+                      <div class="col-4">
+                        <div class="small text-muted">Cas</div>
+                        <div class="fw-bold text-danger">{{ perf.casualties || 0 }}</div>
+                      </div>
+                      <div class="col-4">
+                        <div class="small text-muted">SPP</div>
+                        <div class="fw-bold text-warning">{{ perf.sppGained }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
           </div>
 
           <!-- Away Team Players -->
           <div class="col-md-6">
             <h5>{{ match.awayTeam.team?.name || 'Away Team' }}</h5>
-            <div class="table-responsive">
+            
+            <!-- Desktop Table View -->
+            <div class="table-responsive d-none d-md-block">
               <table class="table table-sm table-striped">
                 <thead class="table-dark">
                   <tr>
@@ -335,6 +453,44 @@
                   }
                 </tbody>
               </table>
+            </div>
+
+            <!-- Mobile Card View -->
+            <div class="d-md-none">
+              @for (perf of match.awayTeam.playerPerformances; track perf.playerId) {
+                <div class="card mb-2">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                      <div class="flex-grow-1">
+                        @if (perf.player) {
+                          <a [routerLink]="['/team', match.awayTeam.teamId, 'player', perf.playerId]" class="text-decoration-none">
+                            <strong>{{ perf.player.name }}</strong>
+                          </a>
+                        } @else {
+                          <strong>{{ perf.playerId }}</strong>
+                        }
+                      </div>
+                      @if (perf.mvp) {
+                        <span class="badge bg-warning text-dark">⭐ MVP</span>
+                      }
+                    </div>
+                    <div class="row g-2 text-center mt-2">
+                      <div class="col-4">
+                        <div class="small text-muted">TD</div>
+                        <div class="fw-bold text-success">{{ perf.touchdowns || 0 }}</div>
+                      </div>
+                      <div class="col-4">
+                        <div class="small text-muted">Cas</div>
+                        <div class="fw-bold text-danger">{{ perf.casualties || 0 }}</div>
+                      </div>
+                      <div class="col-4">
+                        <div class="small text-muted">SPP</div>
+                        <div class="fw-bold text-warning">{{ perf.sppGained }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
             </div>
           </div>
         </div>

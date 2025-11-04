@@ -62,7 +62,9 @@
       @if (matches.length > 0) {
         <section class="mb-5">
           <h2 class="mb-4">Match History</h2>
-          <div class="table-responsive">
+          
+          <!-- Desktop Table View -->
+          <div class="table-responsive d-none d-md-block">
             <table class="table table-striped table-hover">
               <thead class="table-dark">
                 <tr>
@@ -127,6 +129,64 @@
                 }
               </tbody>
             </table>
+          </div>
+
+          <!-- Mobile Card View -->
+          <div class="d-md-none">
+            @for (match of matches; track match.id) {
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="mb-2">
+                    <small class="text-muted">{{ formatMatchDate(match.matchDate) }}</small>
+                    @if (match.matchWeek) {
+                      <span class="badge bg-secondary ms-2">Week {{ match.matchWeek }}</span>
+                    }
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div>
+                      <h6 class="card-title mb-1">
+                        <a [routerLink]="['/team', getTeamId(match)]" class="text-decoration-none">
+                          {{ getTeamName(match) }}
+                        </a>
+                      </h6>
+                      <small class="text-muted">vs</small>
+                      <div>
+                        <a [routerLink]="['/team', getOpponentId(match)]" class="text-decoration-none">
+                          {{ getOpponentName(match) }}
+                        </a>
+                      </div>
+                    </div>
+                    <div class="text-end">
+                      @if (getMatchResult(match)) {
+                        @switch (getMatchResult(match)) {
+                          @case ('win') {
+                            <span class="badge bg-success">W</span>
+                          }
+                          @case ('draw') {
+                            <span class="badge bg-warning text-dark">D</span>
+                          }
+                          @case ('loss') {
+                            <span class="badge bg-danger">L</span>
+                          }
+                        }
+                      }
+                    </div>
+                  </div>
+                  <div class="text-center mb-2">
+                    @if (match.finalScore) {
+                      <strong class="fs-5">{{ getScoreFor(match) }} - {{ getScoreAgainst(match) }}</strong>
+                    } @else {
+                      <span class="text-muted">vs</span>
+                    }
+                  </div>
+                  <div class="text-center">
+                    <a [routerLink]="['/match', match.id]" class="btn btn-sm btn-primary">
+                      View Match
+                    </a>
+                  </div>
+                </div>
+              </div>
+            }
           </div>
         </section>
       }

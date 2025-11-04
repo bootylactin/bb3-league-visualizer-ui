@@ -11,7 +11,9 @@
     <!-- Current Standings -->
     <section class="mb-5">
       <h2 class="mb-4">Current Standings</h2>
-      <div class="table-responsive">
+      
+      <!-- Desktop Table View -->
+      <div class="table-responsive d-none d-md-block">
         <table class="table table-striped table-hover">
           <thead class="table-dark">
             <tr>
@@ -56,6 +58,54 @@
             }
           </tbody>
         </table>
+      </div>
+
+      <!-- Mobile Card View -->
+      <div class="d-md-none">
+        @for (team of league?.teams; track team.id; let i = $index) {
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <div>
+                  <h5 class="card-title mb-1">
+                    <span class="badge bg-primary me-2">#{{ i + 1 }}</span>
+                    <a [routerLink]="['/team', team.id]" class="text-decoration-none">
+                      {{ team.name }}
+                    </a>
+                  </h5>
+                  <p class="card-text mb-1">
+                    <small class="text-muted">
+                      Coach: <a [routerLink]="['/coach', team.coachId]" class="text-decoration-none">{{ team.coach || team.coachId }}</a> | {{ team.race }}
+                    </small>
+                  </p>
+                </div>
+                <div class="text-end">
+                  <strong class="text-primary fs-4">{{ getTeamPoints(team) }}</strong>
+                  <div class="small text-muted">Points</div>
+                </div>
+              </div>
+              <hr class="my-2">
+              <div class="row g-2 text-center">
+                <div class="col-3">
+                  <div class="small text-muted">Record</div>
+                  <div class="fw-bold">{{ getTeamWins(team) }}-{{ getTeamDraws(team) }}-{{ getTeamLosses(team) }}</div>
+                </div>
+                <div class="col-3">
+                  <div class="small text-muted">TD For</div>
+                  <div class="fw-bold text-success">{{ getTeamTouchdownsFor(team) }}</div>
+                </div>
+                <div class="col-3">
+                  <div class="small text-muted">TD Against</div>
+                  <div class="fw-bold">{{ getTeamTouchdownsAgainst(team) }}</div>
+                </div>
+                <div class="col-3">
+                  <div class="small text-muted">Cas</div>
+                  <div class="fw-bold text-danger">{{ getTeamCasualtiesFor(team) }}/{{ getTeamCasualtiesAgainst(team) }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
       </div>
     </section>
 
@@ -154,7 +204,9 @@
     @if (matches.length > 0) {
       <section class="mb-5">
         <h2 class="mb-4">Recent Matches</h2>
-        <div class="table-responsive">
+        
+        <!-- Desktop Table View -->
+        <div class="table-responsive d-none d-md-block">
           <table class="table table-striped table-hover">
             <thead class="table-dark">
               <tr>
@@ -203,6 +255,45 @@
               }
             </tbody>
           </table>
+        </div>
+
+        <!-- Mobile Card View -->
+        <div class="d-md-none">
+          @for (match of matches; track match.id) {
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="text-center mb-3">
+                  @if (match.finalScore) {
+                    <h4 class="mb-2">{{ match.finalScore.home }} - {{ match.finalScore.away }}</h4>
+                  } @else {
+                    <span class="badge bg-secondary mb-2">vs</span>
+                  }
+                  <small class="text-muted">{{ formatMatchDate(match.matchDate) }}</small>
+                  @if (match.matchWeek) {
+                    <span class="badge bg-secondary ms-2">Week {{ match.matchWeek }}</span>
+                  }
+                </div>
+                <hr>
+                <div class="row text-center">
+                  <div class="col-6 mb-2">
+                    <a [routerLink]="['/team', match.homeTeam.teamId]" class="text-decoration-none">
+                      <div class="fw-bold">{{ match.homeTeam.team?.name || 'Home Team' }}</div>
+                    </a>
+                  </div>
+                  <div class="col-6 mb-2">
+                    <a [routerLink]="['/team', match.awayTeam.teamId]" class="text-decoration-none">
+                      <div class="fw-bold">{{ match.awayTeam.team?.name || 'Away Team' }}</div>
+                    </a>
+                  </div>
+                </div>
+                <div class="text-center mt-3">
+                  <a [routerLink]="['/match', match.id]" class="btn btn-primary btn-sm">
+                    View Match
+                  </a>
+                </div>
+              </div>
+            </div>
+          }
         </div>
       </section>
     }

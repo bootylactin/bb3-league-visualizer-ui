@@ -15,3 +15,18 @@
   text-decoration: underline !important;
 }
 
+/* Mobile responsive card styles */
+@media (max-width: 767.98px) {
+  .coach-page .card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .coach-page .card-body {
+    padding: 1rem;
+  }
+
+  .coach-page .card-title {
+    font-size: 1rem;
+  }
+}
+

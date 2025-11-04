@@ -64,7 +64,9 @@
       @if (matches.length > 0) {
         <section class="mb-5">
           <h2 class="mb-4">Match History</h2>
-          <div class="table-responsive">
+          
+          <!-- Desktop Table View -->
+          <div class="table-responsive d-none d-md-block">
             <table class="table table-striped table-hover">
               <thead class="table-dark">
                 <tr>
@@ -124,13 +126,65 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Mobile Card View -->
+          <div class="d-md-none">
+            @for (match of matches; track match.id) {
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                      <h6 class="card-title mb-1">
+                        <a [routerLink]="['/team', getOpponentId(match, team.id)]" class="text-decoration-none">
+                          {{ getOpponentName(match, team.id) }}
+                        </a>
+                      </h6>
+                      <small class="text-muted">{{ formatMatchDate(match.matchDate) }}</small>
+                      @if (match.matchWeek) {
+                        <span class="badge bg-secondary ms-2">Week {{ match.matchWeek }}</span>
+                      }
+                    </div>
+                    <div>
+                      @if (getMatchResult(match, team.id)) {
+                        @switch (getMatchResult(match, team.id)) {
+                          @case ('win') {
+                            <span class="badge bg-success">W</span>
+                          }
+                          @case ('draw') {
+                            <span class="badge bg-warning text-dark">D</span>
+                          }
+                          @case ('loss') {
+                            <span class="badge bg-danger">L</span>
+                          }
+                        }
+                      }
+                    </div>
+                  </div>
+                  <div class="text-center mb-2">
+                    @if (match.finalScore) {
+                      <strong class="fs-5">{{ getScoreFor(match, team.id) }} - {{ getScoreAgainst(match, team.id) }}</strong>
+                    } @else {
+                      <span class="text-muted">vs</span>
+                    }
+                  </div>
+                  <div class="text-center">
+                    <a [routerLink]="['/match', match.id]" class="btn btn-sm btn-primary">
+                      View Match
+                    </a>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
         </section>
       }
 
       <!-- Roster -->
       <section class="mb-5">
         <h2 class="mb-4">Roster</h2>
-        <div class="table-responsive">
+        
+        <!-- Desktop Table View -->
+        <div class="table-responsive d-none d-md-block">
           <table class="table table-striped table-hover">
             <thead class="table-dark">
               <tr>
@@ -176,6 +230,66 @@
               }
             </tbody>
           </table>
+        </div>
+
+        <!-- Mobile Card View -->
+        <div class="d-md-none">
+          @for (player of team.players; track player.id) {
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <div class="flex-grow-1">
+                    <h6 class="card-title mb-1">
+                      <a [routerLink]="['/team', team.id, 'player', player.id]" class="text-decoration-none">
+                        {{ player.name }}
+                      </a>
+                      @if (player.injuries.length > 0) {
+                        <span class="badge bg-warning text-dark ms-2" title="Injuries: {{ player.injuries.join(', ') }}">
+                          ⚠️
+                        </span>
+                      }
+                    </h6>
+                    <p class="card-text mb-1">
+                      <span class="badge bg-info me-1">{{ player.level }}</span>
+                      <small class="text-muted">{{ player.position }}</small>
+                    </p>
+                  </div>
+                  <div class="text-end">
+                    <div class="fw-bold text-warning">{{ getPlayerSpp(player) }}</div>
+                    <small class="text-muted">SPP</small>
+                  </div>
+                </div>
+                <hr class="my-2">
+                <div class="row g-2 text-center mb-2">
+                  <div class="col-4">
+                    <div class="small text-muted">TDs</div>
+                    <div class="fw-bold text-success">{{ getPlayerTouchdowns(player) }}</div>
+                  </div>
+                  <div class="col-4">
+                    <div class="small text-muted">Cas</div>
+                    <div class="fw-bold text-danger">{{ getPlayerCasualties(player) }}</div>
+                  </div>
+                  <div class="col-4">
+                    <div class="small text-muted">Level</div>
+                    <div class="fw-bold">{{ player.level }}</div>
+                  </div>
+                </div>
+                @if (player.skills.length > 0) {
+                  <div class="mb-2">
+                    <small class="text-muted d-block mb-1">Skills:</small>
+                    @for (skill of player.skills; track skill) {
+                      <span class="badge bg-secondary me-1 mb-1">{{ skill }}</span>
+                    }
+                  </div>
+                }
+                <div class="text-center mt-2">
+                  <a [routerLink]="['/team', team.id, 'player', player.id]" class="btn btn-sm btn-primary">
+                    View Details
+                  </a>
+                </div>
+              </div>
+            </div>
+          }
         </div>
       </section>
     </div>

@@ -25,3 +25,18 @@
   border-bottom: none;
 }
 
+/* Mobile responsive card styles */
+@media (max-width: 767.98px) {
+  .league-page .card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .league-page .card-body {
+    padding: 1rem;
+  }
+
+  .league-page .card-title {
+    font-size: 1rem;
+  }
+}
+
