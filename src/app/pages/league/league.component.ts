@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { switchMap, filter } from 'rxjs/operators';
 import { DataService } from '../../services/data.service';
 import { League, Player, Team, Match } from '../../models';
 
@@ -24,11 +25,15 @@ export class LeagueComponent implements OnInit {
   ngOnInit(): void {
     this.titleService.setTitle('BB3 League Visualizer - League');
     
-    this.dataService.getLeague().subscribe(league => {
-      this.league = league;
-      if (league) {
+    this.dataService.getLeague().pipe(
+      filter((league): league is League => !!league),
+      switchMap(league => {
+        this.league = league;
         this.titleService.setTitle(`BB3 League Visualizer - ${league.name}`);
-      }
+        return this.dataService.getMatchesByLeague(league.id);
+      })
+    ).subscribe(matches => {
+      this.matches = matches;
     });
 
     this.dataService.getTopPlayersBySpp(5).subscribe(players => {
@@ -41,14 +46,6 @@ export class LeagueComponent implements OnInit {
 
     this.dataService.getTopPlayersByTouchdowns(5).subscribe(players => {
       this.topTouchdowns = players;
-    });
-
-    this.dataService.getLeague().subscribe(league => {
-      if (league) {
-        this.dataService.getMatchesByLeague(league.id).subscribe(matches => {
-          this.matches = matches;
-        });
-      }
     });
   }
 
