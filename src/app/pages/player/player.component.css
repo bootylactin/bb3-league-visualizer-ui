@@ -1,17 +1,174 @@
 .player-page {
   min-height: 100vh;
-  background-color: #f8f9fa;
+  background-color: var(--bb-bg-primary);
+}
+
+.player-page .bg-info {
+  background: linear-gradient(135deg, var(--bb-info) 0%, var(--bb-info-bg) 100%) !important;
+  border-bottom: 3px solid var(--bb-secondary);
 }
 
 .card {
-  border: none;
+  border: 1px solid var(--bb-border-color);
+  background-color: var(--bb-bg-card);
+  box-shadow: var(--bb-shadow-sm);
+}
+
+.card-header {
+  background-color: var(--bb-bg-header);
+  border-bottom: 1px solid var(--bb-border-color);
+  color: var(--bb-text-inverse);
 }
 
 .breadcrumb {
   margin-bottom: 0;
+  background-color: transparent;
+}
+
+.breadcrumb-item a {
+  color: var(--bb-text-inverse);
 }
 
 .breadcrumb-item a:hover {
+  color: var(--bb-secondary);
   text-decoration: underline !important;
+}
+
+.breadcrumb-item.active {
+  color: var(--bb-text-inverse);
+}
+
+.bg-light {
+  background-color: var(--bb-bg-secondary) !important;
+  color: var(--bb-text-primary) !important;
+}
+
+.bg-light h2,
+.bg-light h5,
+.bg-light .text-muted {
+  color: var(--bb-text-primary) !important;
+}
+
+.bg-light .text-warning {
+  color: var(--bb-warning) !important;
+}
+
+.bg-light .text-success {
+  color: var(--bb-success) !important;
+}
+
+.bg-success.bg-opacity-10 {
+  background-color: var(--bb-success-bg) !important;
+  color: var(--bb-text-primary) !important;
+}
+
+.bg-success.bg-opacity-10 h2,
+.bg-success.bg-opacity-10 h5,
+.bg-success.bg-opacity-10 .text-muted {
+  color: var(--bb-text-primary) !important;
+}
+
+.bg-success.bg-opacity-10 .text-success {
+  color: var(--bb-success) !important;
+}
+
+.bg-danger.bg-opacity-10 {
+  background-color: var(--bb-danger-bg) !important;
+  color: var(--bb-text-primary) !important;
+}
+
+.bg-danger.bg-opacity-10 h2,
+.bg-danger.bg-opacity-10 h5,
+.bg-danger.bg-opacity-10 .text-muted {
+  color: var(--bb-text-primary) !important;
+}
+
+.bg-danger.bg-opacity-10 .text-danger {
+  color: var(--bb-danger) !important;
+}
+
+.bg-info.bg-opacity-10 {
+  background-color: var(--bb-info-bg) !important;
+  color: var(--bb-text-primary) !important;
+}
+
+.bg-info.bg-opacity-10 h2,
+.bg-info.bg-opacity-10 h5,
+.bg-info.bg-opacity-10 .text-muted {
+  color: var(--bb-text-primary) !important;
+}
+
+.bg-info.bg-opacity-10 .text-info {
+  color: var(--bb-info) !important;
+}
+
+/* Detailed Statistics Tables - Remove all background boxes and ensure readability */
+.player-page .card .table {
+  color: var(--bb-text-primary);
+  background-color: transparent !important;
+}
+
+.player-page .card .table,
+.player-page .card .table-sm {
+  background-color: transparent !important;
+}
+
+.player-page .card .table td,
+.player-page .card .table-sm td {
+  color: var(--bb-text-primary) !important;
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+  border-color: transparent !important;
+  padding: 0.5rem 0.75rem;
+}
+
+.player-page .card .table td strong,
+.player-page .card .table-sm td strong {
+  color: var(--bb-text-primary) !important;
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+.player-page .card .table td.text-end,
+.player-page .card .table-sm td.text-end {
+  color: var(--bb-text-primary) !important;
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+.player-page .card .table tr,
+.player-page .card .table-sm tr {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+.player-page .card .table tr:hover,
+.player-page .card .table-sm tr:hover {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+.player-page .card .table tr:hover td,
+.player-page .card .table-sm tr:hover td {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+/* Override any striped table effects */
+.player-page .card .table tbody tr:nth-of-type(odd),
+.player-page .card .table-sm tbody tr:nth-of-type(odd),
+.player-page .card .table tbody tr:nth-of-type(even),
+.player-page .card .table-sm tbody tr:nth-of-type(even) {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+.player-page .card .table tbody tr:nth-of-type(odd) td,
+.player-page .card .table-sm tbody tr:nth-of-type(odd) td,
+.player-page .card .table tbody tr:nth-of-type(even) td,
+.player-page .card .table-sm tbody tr:nth-of-type(even) td {
+  background-color: transparent !important;
+  background: transparent !important;
 }
 

@@ -13,6 +13,19 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/league" routerLinkActive="active">League</a>
         </li>
+        <li class="nav-item">
+          <button 
+            class="btn btn-link nav-link text-decoration-none" 
+            (click)="toggleTheme()"
+            [attr.aria-label]="'Switch to ' + (theme() === 'dark' ? 'light' : 'dark') + ' theme'"
+            title="Toggle theme">
+            @if (theme() === 'dark') {
+              <span>☀️</span>
+            } @else {
+              <span>🌙</span>
+            }
+          </button>
+        </li>
       </ul>
     </div>
   </div>

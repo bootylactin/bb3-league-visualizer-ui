@@ -1,19 +1,40 @@
 .match-page {
   min-height: 100vh;
-  background-color: #f8f9fa;
+  background-color: var(--bb-bg-primary);
+}
+
+.match-page .bg-dark {
+  background: linear-gradient(135deg, var(--bb-bg-header) 0%, var(--bb-primary-dark) 100%) !important;
+  border-bottom: 3px solid var(--bb-secondary);
 }
 
 .card {
-  border: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--bb-border-color);
+  background-color: var(--bb-bg-card);
+  box-shadow: var(--bb-shadow-sm);
+}
+
+.card-header {
+  background-color: var(--bb-bg-secondary);
+  border-bottom: 1px solid var(--bb-border-color);
 }
 
 .breadcrumb {
   margin-bottom: 0;
+  background-color: transparent;
+}
+
+.breadcrumb-item a {
+  color: var(--bb-text-inverse);
 }
 
 .breadcrumb-item a:hover {
+  color: var(--bb-secondary);
   text-decoration: underline !important;
+}
+
+.breadcrumb-item.active {
+  color: var(--bb-text-inverse);
 }
 
 .timeline-item {
@@ -27,7 +48,7 @@
   top: 0;
   bottom: -1rem;
   width: 2px;
-  background-color: #dee2e6;
+  background-color: var(--bb-border-color);
 }
 
 .timeline-item:last-child::before {
@@ -37,12 +58,69 @@
 .table-responsive {
   border-radius: 0.375rem;
   overflow: hidden;
+  background-color: var(--bb-bg-card);
+}
+
+.bg-light {
+  background-color: var(--bb-bg-secondary) !important;
+}
+
+/* Game Log Timeline Styling */
+.timeline-item .card {
+  background-color: var(--bb-bg-card);
+}
+
+.timeline-item .card-body {
+  color: var(--bb-text-primary);
+}
+
+.timeline-item strong {
+  color: var(--bb-text-primary);
+}
+
+/* Ensure game log event titles are readable */
+.timeline-item .text-success {
+  color: var(--bb-success) !important;
+}
+
+.timeline-item .text-danger {
+  color: var(--bb-danger) !important;
+}
+
+.timeline-item .text-warning {
+  color: var(--bb-warning) !important;
+}
+
+.timeline-item .text-info {
+  color: var(--bb-info) !important;
+}
+
+.timeline-item .text-primary {
+  color: var(--bb-primary) !important;
+}
+
+.timeline-item .text-secondary {
+  color: var(--bb-secondary) !important;
+}
+
+.timeline-item .text-dark {
+  color: var(--bb-text-primary) !important;
+}
+
+/* Game log links */
+.timeline-item a {
+  color: var(--bb-primary);
+}
+
+.timeline-item a:hover {
+  color: var(--bb-primary-light);
+  text-decoration: underline;
 }
 
 /* Mobile responsive card styles */
 @media (max-width: 767.98px) {
   .match-page .card {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--bb-shadow-sm);
   }
 
   .match-page .card-body {

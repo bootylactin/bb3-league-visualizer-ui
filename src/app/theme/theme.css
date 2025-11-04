@@ -1,0 +1,414 @@
+/* Blood Bowl Theme - CSS Variables */
+/* Light Theme (Parchment/Sports Book Style) */
+:root {
+  /* Primary Colors - Blood Red & Gold */
+  --bb-primary: #8B1538;
+  --bb-primary-dark: #6B0F2A;
+  --bb-primary-light: #A51F48;
+  --bb-secondary: #D4AF37;
+  --bb-secondary-dark: #B8941F;
+  --bb-secondary-light: #E5C659;
+
+  /* Background Colors */
+  --bb-bg-primary: #F5F1E8;
+  --bb-bg-secondary: #E8E0D1;
+  --bb-bg-tertiary: #DDD4C2;
+  --bb-bg-card: #FFFFFF;
+  --bb-bg-header: #2C2C2C;
+
+  /* Text Colors */
+  --bb-text-primary: #1A1A1A;
+  --bb-text-secondary: #4A4A4A;
+  --bb-text-muted: #6B6B6B;
+  --bb-text-inverse: #FFFFFF;
+
+  /* Border & Shadow */
+  --bb-border-color: #C9C0B0;
+  --bb-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --bb-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --bb-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
+
+  /* Status Colors */
+  --bb-success: #2D5016;
+  --bb-success-bg: #D4EDDA;
+  --bb-danger: #8B1538;
+  --bb-danger-bg: #F8D7DA;
+  --bb-warning: #856404;
+  --bb-warning-bg: #FFF3CD;
+  --bb-info: #0C5460;
+  --bb-info-bg: #D1ECF1;
+
+  /* Sports Theme Colors */
+  --bb-gridiron: #4A4A4A;
+  --bb-grass: #5A7C3A;
+  --bb-mud: #8B6F47;
+}
+
+/* Dark Theme (Arena/Stadium Style) */
+[data-theme="dark"] {
+  /* Primary Colors - Blood Red & Gold */
+  --bb-primary: #C41E3A;
+  --bb-primary-dark: #8B1538;
+  --bb-primary-light: #E63950;
+  --bb-secondary: #D4AF37;
+  --bb-secondary-dark: #B8941F;
+  --bb-secondary-light: #E5C659;
+
+  /* Background Colors */
+  --bb-bg-primary: #1A1A1A;
+  --bb-bg-secondary: #252525;
+  --bb-bg-tertiary: #2C2C2C;
+  --bb-bg-card: #2A2A2A;
+  --bb-bg-header: #0F0F0F;
+
+  /* Text Colors */
+  --bb-text-primary: #E8E8E8;
+  --bb-text-secondary: #C0C0C0;
+  --bb-text-muted: #909090;
+  --bb-text-inverse: #FFFFFF;
+
+  /* Border & Shadow */
+  --bb-border-color: #3A3A3A;
+  --bb-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
+  --bb-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.5);
+  --bb-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.6);
+
+  /* Status Colors */
+  --bb-success: #4CAF50;
+  --bb-success-bg: #1B4332;
+  --bb-danger: #C41E3A;
+  --bb-danger-bg: #3D1A1F;
+  --bb-warning: #FFB020;
+  --bb-warning-bg: #3D2F1A;
+  --bb-info: #2196F3;
+  --bb-info-bg: #1A2A3D;
+
+  /* Sports Theme Colors */
+  --bb-gridiron: #2C2C2C;
+  --bb-grass: #3A5A2A;
+  --bb-mud: #5A4A3A;
+}
+
+/* Bootstrap Theme Customization */
+:root {
+  --bs-primary: var(--bb-primary);
+  --bs-primary-rgb: 139, 21, 56;
+  --bs-secondary: var(--bb-secondary);
+  --bs-secondary-rgb: 212, 175, 55;
+  --bs-success: var(--bb-success);
+  --bs-danger: var(--bb-danger);
+  --bs-warning: var(--bb-warning);
+  --bs-info: var(--bb-info);
+  --bs-dark: var(--bb-bg-header);
+  --bs-light: var(--bb-bg-secondary);
+  --bs-body-bg: var(--bb-bg-primary);
+  --bs-body-color: var(--bb-text-primary);
+  --bs-border-color: var(--bb-border-color);
+  --bs-card-bg: var(--bb-bg-card);
+  --bs-card-border-color: var(--bb-border-color);
+}
+
+[data-theme="dark"] {
+  --bs-primary: var(--bb-primary);
+  --bs-primary-rgb: 196, 30, 58;
+  --bs-secondary: var(--bb-secondary);
+  --bs-secondary-rgb: 212, 175, 55;
+  --bs-success: var(--bb-success);
+  --bs-danger: var(--bb-danger);
+  --bs-warning: var(--bb-warning);
+  --bs-info: var(--bb-info);
+  --bs-dark: var(--bb-bg-header);
+  --bs-light: var(--bb-bg-secondary);
+  --bs-body-bg: var(--bb-bg-primary);
+  --bs-body-color: var(--bb-text-primary);
+  --bs-border-color: var(--bb-border-color);
+  --bs-card-bg: var(--bb-bg-card);
+  --bs-card-border-color: var(--bb-border-color);
+}
+
+/* Global Theme Styles */
+body {
+  background-color: var(--bb-bg-primary);
+  color: var(--bb-text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Navbar Theme */
+.navbar-dark {
+  background-color: var(--bb-bg-header) !important;
+  border-bottom: 2px solid var(--bb-primary);
+}
+
+/* Card Theme */
+.card {
+  background-color: var(--bb-bg-card);
+  border-color: var(--bb-border-color);
+  color: var(--bb-text-primary);
+  box-shadow: var(--bb-shadow-sm);
+}
+
+/* Table Theme */
+.table {
+  color: var(--bb-text-primary);
+  background-color: var(--bb-bg-card);
+}
+
+.table th,
+.table td {
+  color: var(--bb-text-primary);
+  border-color: var(--bb-border-color);
+}
+
+.table-dark {
+  background-color: var(--bb-bg-header) !important;
+  color: var(--bb-text-inverse);
+}
+
+.table-dark th,
+.table-dark td {
+  color: var(--bb-text-inverse) !important;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > td {
+  background-color: var(--bb-bg-secondary);
+  color: var(--bb-text-primary);
+}
+
+.table-striped > tbody > tr:nth-of-type(even) > td {
+  background-color: var(--bb-bg-card);
+  color: var(--bb-text-primary);
+}
+
+.table-hover > tbody > tr:hover > td {
+  background-color: var(--bb-bg-tertiary);
+  color: var(--bb-text-primary);
+}
+
+/* Table Links */
+.table a {
+  color: var(--bb-primary);
+  text-decoration: none;
+}
+
+.table a:hover {
+  color: var(--bb-primary-light);
+  text-decoration: underline;
+}
+
+.table-dark a {
+  color: var(--bb-secondary) !important;
+}
+
+.table-dark a:hover {
+  color: var(--bb-secondary-light) !important;
+}
+
+/* Table Buttons - Ensure readability in dark mode */
+.table .btn,
+.table td .btn,
+.table th .btn,
+.table .btn-sm {
+  color: #FFFFFF !important;
+  text-decoration: none;
+}
+
+.table .btn-primary,
+.table .btn-primary.btn-sm {
+  background-color: var(--bb-primary) !important;
+  border-color: var(--bb-primary) !important;
+  color: #FFFFFF !important;
+}
+
+.table .btn-primary:hover,
+.table .btn-primary.btn-sm:hover,
+.table .btn-primary:focus,
+.table .btn-primary.btn-sm:focus {
+  background-color: var(--bb-primary-light) !important;
+  border-color: var(--bb-primary-light) !important;
+  color: #FFFFFF !important;
+}
+
+.table .btn-secondary,
+.table .btn-secondary.btn-sm {
+  background-color: var(--bb-secondary) !important;
+  border-color: var(--bb-secondary) !important;
+  color: var(--bb-text-inverse) !important;
+}
+
+.table .btn-secondary:hover,
+.table .btn-secondary.btn-sm:hover,
+.table .btn-secondary:focus,
+.table .btn-secondary.btn-sm:focus {
+  background-color: var(--bb-secondary-light) !important;
+  border-color: var(--bb-secondary-light) !important;
+  color: var(--bb-text-inverse) !important;
+}
+
+/* Small Tables */
+.table-sm th,
+.table-sm td {
+  color: var(--bb-text-primary);
+}
+
+.table-dark.table-sm th,
+.table-dark.table-sm td {
+  color: var(--bb-text-inverse) !important;
+}
+
+/* Badge Theme */
+.badge {
+  font-weight: 600;
+}
+
+/* Button Theme */
+.btn-primary {
+  background-color: var(--bb-primary);
+  border-color: var(--bb-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--bb-primary-dark);
+  border-color: var(--bb-primary-dark);
+}
+
+.btn-secondary {
+  background-color: var(--bb-secondary);
+  border-color: var(--bb-secondary);
+  color: var(--bb-text-inverse);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bb-secondary-dark);
+  border-color: var(--bb-secondary-dark);
+}
+
+/* Footer Theme */
+footer.bg-dark {
+  background-color: var(--bb-bg-header) !important;
+  border-top: 2px solid var(--bb-primary);
+}
+
+/* Alert Theme */
+.alert-success {
+  background-color: var(--bb-success-bg);
+  border-color: var(--bb-success);
+  color: var(--bb-text-primary);
+}
+
+.alert-danger {
+  background-color: var(--bb-danger-bg);
+  border-color: var(--bb-danger);
+  color: var(--bb-text-primary);
+}
+
+.alert-warning {
+  background-color: var(--bb-warning-bg);
+  border-color: var(--bb-warning);
+  color: var(--bb-text-primary);
+}
+
+.alert-info {
+  background-color: var(--bb-info-bg);
+  border-color: var(--bb-info);
+  color: var(--bb-text-primary);
+}
+
+/* Breadcrumb Theme */
+.breadcrumb {
+  background-color: var(--bb-bg-secondary);
+}
+
+.breadcrumb-item a {
+  color: var(--bb-primary);
+}
+
+.breadcrumb-item.active {
+  color: var(--bb-text-secondary);
+}
+
+/* List Group Theme */
+.list-group-item {
+  background-color: var(--bb-bg-card);
+  border-color: var(--bb-border-color);
+  color: var(--bb-text-primary);
+}
+
+/* Form Theme */
+.form-control {
+  background-color: var(--bb-bg-card);
+  border-color: var(--bb-border-color);
+  color: var(--bb-text-primary);
+}
+
+.form-control:focus {
+  background-color: var(--bb-bg-card);
+  border-color: var(--bb-primary);
+  color: var(--bb-text-primary);
+}
+
+/* Header Sections */
+.bg-dark {
+  background-color: var(--bb-bg-header) !important;
+}
+
+.bg-primary {
+  background-color: var(--bb-primary) !important;
+}
+
+.bg-success {
+  background-color: var(--bb-success) !important;
+}
+
+.bg-info {
+  background-color: var(--bb-info) !important;
+}
+
+/* Text Colors */
+.text-primary {
+  color: var(--bb-primary) !important;
+}
+
+.text-secondary {
+  color: var(--bb-text-secondary) !important;
+}
+
+.text-muted {
+  color: var(--bb-text-muted) !important;
+}
+
+.text-light {
+  color: var(--bb-text-inverse) !important;
+}
+
+/* Bootstrap text color utilities - ensure readability in dark mode */
+.text-success {
+  color: var(--bb-success) !important;
+}
+
+.text-danger {
+  color: var(--bb-danger) !important;
+}
+
+.text-warning {
+  color: var(--bb-warning) !important;
+}
+
+.text-info {
+  color: var(--bb-info) !important;
+}
+
+.text-dark {
+  color: var(--bb-text-primary) !important;
+}
+
+/* In dark mode, ensure text-dark is readable */
+[data-theme="dark"] .text-dark {
+  color: var(--bb-text-primary) !important;
+}
+
+/* Background Colors */
+.bg-light {
+  background-color: var(--bb-bg-secondary) !important;
+}
+

@@ -1,29 +1,47 @@
 .team-page {
   min-height: 100vh;
-  background-color: #f8f9fa;
+  background-color: var(--bb-bg-primary);
+}
+
+.team-page .bg-primary {
+  background: linear-gradient(135deg, var(--bb-primary) 0%, var(--bb-primary-dark) 100%) !important;
+  border-bottom: 3px solid var(--bb-secondary);
 }
 
 .card {
-  border: none;
+  border: 1px solid var(--bb-border-color);
+  background-color: var(--bb-bg-card);
+  box-shadow: var(--bb-shadow-sm);
 }
 
 .table-responsive {
   border-radius: 0.375rem;
   overflow: hidden;
+  background-color: var(--bb-bg-card);
 }
 
 .breadcrumb {
   margin-bottom: 0;
+  background-color: transparent;
+}
+
+.breadcrumb-item a {
+  color: var(--bb-text-inverse);
 }
 
 .breadcrumb-item a:hover {
+  color: var(--bb-secondary);
   text-decoration: underline !important;
+}
+
+.breadcrumb-item.active {
+  color: var(--bb-text-inverse);
 }
 
 /* Mobile responsive card styles */
 @media (max-width: 767.98px) {
   .team-page .card {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--bb-shadow-sm);
   }
 
   .team-page .card-body {

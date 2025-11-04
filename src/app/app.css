@@ -8,9 +8,31 @@
 
 .app-content {
   flex: 1;
+  background-color: var(--bb-bg-primary);
 }
 
 footer {
   margin-top: auto;
+  background-color: var(--bb-bg-header);
+  color: var(--bb-text-inverse);
+}
+
+/* Theme toggle button */
+.nav-item .btn-link {
+  color: var(--bb-text-inverse) !important;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+}
+
+.nav-item .btn-link:hover {
+  color: var(--bb-secondary) !important;
+  background-color: transparent;
+}
+
+.nav-item .btn-link:focus {
+  box-shadow: none;
+  outline: 2px solid var(--bb-secondary);
+  outline-offset: 2px;
 }
 

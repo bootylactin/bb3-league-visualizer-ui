@@ -1,24 +1,41 @@
 .coach-page {
   min-height: 100vh;
-  background-color: #f8f9fa;
+  background-color: var(--bb-bg-primary);
+}
+
+.coach-page .bg-success {
+  background: linear-gradient(135deg, var(--bb-success) 0%, #1B4332 100%) !important;
+  border-bottom: 3px solid var(--bb-secondary);
 }
 
 .card {
-  border: none;
+  border: 1px solid var(--bb-border-color);
+  background-color: var(--bb-bg-card);
+  box-shadow: var(--bb-shadow-sm);
 }
 
 .breadcrumb {
   margin-bottom: 0;
+  background-color: transparent;
+}
+
+.breadcrumb-item a {
+  color: var(--bb-text-inverse);
 }
 
 .breadcrumb-item a:hover {
+  color: var(--bb-secondary);
   text-decoration: underline !important;
+}
+
+.breadcrumb-item.active {
+  color: var(--bb-text-inverse);
 }
 
 /* Mobile responsive card styles */
 @media (max-width: 767.98px) {
   .coach-page .card {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--bb-shadow-sm);
   }
 
   .coach-page .card-body {

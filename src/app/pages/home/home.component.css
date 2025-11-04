@@ -1,4 +1,29 @@
 .landing-page {
   min-height: 100vh;
+  background-color: var(--bb-bg-primary);
+}
+
+.hero-section {
+  background: linear-gradient(135deg, var(--bb-bg-header) 0%, var(--bb-primary-dark) 100%) !important;
+  border-bottom: 3px solid var(--bb-secondary);
+}
+
+.features-section {
+  background-color: var(--bb-bg-primary);
+}
+
+.card {
+  background-color: var(--bb-bg-card);
+  border-color: var(--bb-border-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--bb-shadow-md);
+}
+
+.cta-section {
+  background-color: var(--bb-bg-secondary) !important;
 }
 
