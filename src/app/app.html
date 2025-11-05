@@ -2,10 +2,9 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <a class="navbar-brand" routerLink="/">BB3 League Visualizer</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+    
+    <!-- Desktop Menu -->
+    <div class="navbar-collapse collapse d-lg-flex" id="navbarNavDesktop">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
           <a class="nav-link" routerLink="/" routerLinkActive="active">Home</a>
@@ -28,8 +27,72 @@
         </li>
       </ul>
     </div>
+
+    <!-- Mobile Menu Button -->
+    <button 
+      class="navbar-toggler mobile-menu-btn" 
+      type="button" 
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="isMenuOpen"
+      [class.active]="isMenuOpen"
+      aria-label="Toggle navigation">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
   </div>
 </nav>
+
+<!-- Mobile Menu Overlay -->
+@if (isMenuOpen) {
+  <div 
+    class="mobile-menu-overlay"
+    (click)="closeMenu()"
+    [@fadeIn]>
+  </div>
+}
+
+<!-- Mobile Menu Drawer -->
+@if (isMenuOpen) {
+  <div 
+    class="mobile-menu-drawer"
+    [@slideIn]>
+    <div class="mobile-menu-header">
+      <h3 class="mobile-menu-title">BB3 League Visualizer</h3>
+    </div>
+    <nav class="mobile-menu-nav">
+      <a 
+        class="mobile-menu-link" 
+        routerLink="/" 
+        routerLinkActive="active"
+        (click)="closeMenu()">
+        <span class="mobile-menu-icon">🏠</span>
+        <span>Home</span>
+      </a>
+      <a 
+        class="mobile-menu-link" 
+        routerLink="/league" 
+        routerLinkActive="active"
+        (click)="closeMenu()">
+        <span class="mobile-menu-icon">🏆</span>
+        <span>League</span>
+      </a>
+      <button 
+        class="mobile-menu-link mobile-menu-theme-toggle" 
+        (click)="toggleTheme()"
+        [attr.aria-label]="'Switch to ' + (theme() === 'dark' ? 'light' : 'dark') + ' theme'">
+        <span class="mobile-menu-icon">
+          @if (theme() === 'dark') {
+            ☀️
+          } @else {
+            🌙
+          }
+        </span>
+        <span>Toggle Theme</span>
+      </button>
+    </nav>
+  </div>
+}
 
 <div class="app-content">
   <router-outlet />
